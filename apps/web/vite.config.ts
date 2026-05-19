@@ -9,6 +9,17 @@ const config = defineConfig({
   plugins: [tailwindcss(), devtools(), tanstackStart(), viteReact()],
   test: {
     exclude: ['node_modules/**', 'dist/**', '.output/**', 'e2e/**'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text-summary', 'json-summary'],
+      reportsDirectory: './coverage',
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/**/*.spec.{ts,tsx}',
+        'src/routeTree.gen.ts',
+      ],
+    },
   },
 })
 

@@ -32,9 +32,28 @@ for name in "$@"; do
   rm -f "$LOG_DIR/$name.log"
 done
 
+# Print a one-line coverage summary parsed from vitest's json-summary report.
+# Coverage is informational only — never affects pass/fail of the vitest run.
+print_coverage_summary() {
+  summary="apps/web/coverage/coverage-summary.json"
+  [ -f "$summary" ] || return 0
+  node -e '
+    const s = require("./" + process.argv[1]).total;
+    const fmt = (m) => m && typeof m.pct === "number" ? m.pct.toFixed(1) + "%" : "n/a";
+    process.stdout.write(
+      `[INFO] coverage      ${fmt(s.statements)} stmts  ` +
+      `${fmt(s.branches)} branches  ${fmt(s.functions)} funcs  ` +
+      `${fmt(s.lines)} lines\n`
+    );
+  ' "$summary" 2>/dev/null || true
+}
+
 for name in "$@"; do
   case "$name" in
-    vitest)    run_tool vitest    "pnpm --filter web test" ;;
+    vitest)
+      run_tool vitest "pnpm --filter web test -- --coverage"
+      print_coverage_summary
+      ;;
     typecheck) run_tool typecheck "pnpm --filter web typecheck" ;;
     eslint)    run_tool eslint    "pnpm --filter web lint" ;;
     prettier)  run_tool prettier  "pnpm --filter web check" ;;
