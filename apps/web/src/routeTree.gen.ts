@@ -9,49 +9,55 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as FamilyBirthRelationshipsRegisterABirthRouteImport } from './routes/family-birth-relationships.register-a-birth'
 
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FamilyBirthRelationshipsRegisterABirthRoute =
-  FamilyBirthRelationshipsRegisterABirthRouteImport.update({
-    id: '/family-birth-relationships/register-a-birth',
-    path: '/family-birth-relationships/register-a-birth',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/family-birth-relationships/register-a-birth': typeof FamilyBirthRelationshipsRegisterABirthRoute
+  '/$': typeof SplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/family-birth-relationships/register-a-birth': typeof FamilyBirthRelationshipsRegisterABirthRoute
+  '/$': typeof SplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/family-birth-relationships/register-a-birth': typeof FamilyBirthRelationshipsRegisterABirthRoute
+  '/$': typeof SplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/family-birth-relationships/register-a-birth'
+  fullPaths: '/' | '/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/family-birth-relationships/register-a-birth'
-  id: '__root__' | '/' | '/family-birth-relationships/register-a-birth'
+  to: '/' | '/$'
+  id: '__root__' | '/' | '/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  FamilyBirthRelationshipsRegisterABirthRoute: typeof FamilyBirthRelationshipsRegisterABirthRoute
+  SplatRoute: typeof SplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -59,20 +65,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/family-birth-relationships/register-a-birth': {
-      id: '/family-birth-relationships/register-a-birth'
-      path: '/family-birth-relationships/register-a-birth'
-      fullPath: '/family-birth-relationships/register-a-birth'
-      preLoaderRoute: typeof FamilyBirthRelationshipsRegisterABirthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  FamilyBirthRelationshipsRegisterABirthRoute:
-    FamilyBirthRelationshipsRegisterABirthRoute,
+  SplatRoute: SplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

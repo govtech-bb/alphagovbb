@@ -1,10 +1,10 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { linkVariants } from '@govtech-bb/react'
+import { CATEGORY_TITLES, PAGES } from '../content/registry'
 
-const SEGMENT_LABELS: Record<string, string> = {
-  'family-birth-relationships': 'Family, birth & relationships',
-  'register-a-birth': 'Register a birth',
-}
+const PAGE_TITLES: Record<string, string> = Object.fromEntries(
+  PAGES.map((p) => [p.slug.split('/').pop()!, p.meta.title]),
+)
 
 function titleCase(slug: string): string {
   const raw = slug.replace(/-/g, ' ')
@@ -12,7 +12,7 @@ function titleCase(slug: string): string {
 }
 
 function titleForSegment(seg: string): string {
-  return SEGMENT_LABELS[seg] ?? titleCase(seg)
+  return CATEGORY_TITLES[seg] ?? PAGE_TITLES[seg] ?? titleCase(seg)
 }
 
 export function Breadcrumbs() {
