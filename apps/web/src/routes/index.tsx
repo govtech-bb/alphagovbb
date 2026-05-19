@@ -59,6 +59,8 @@ function Home() {
               to change as we learn more.
             </Text>
             <Search
+              action="/search-results"
+              name="q"
               label="Search for a service"
               buttonLabel="Search"
               onSearch={handleSearch}

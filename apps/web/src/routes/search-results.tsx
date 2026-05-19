@@ -1,75 +1,119 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Heading, Text, linkVariants } from '@govtech-bb/react'
-import { Breadcrumbs } from '../components/Breadcrumbs'
-import { search } from '../lib/search'
+import { Heading, Link, Search as SearchInput, Text } from '@govtech-bb/react'
 import { z } from 'zod'
+import { search, type SearchHit } from '../lib/search'
 
-const Search = z.object({
+const SearchParams = z.object({
   q: z.string().optional().default(''),
 })
 
 export const Route = createFileRoute('/search-results')({
-  validateSearch: Search,
+  validateSearch: SearchParams,
   head: () => ({
-    meta: [{ title: 'Search | Government of Barbados' }],
+    meta: [{ title: 'Search Results | Government of Barbados' }],
   }),
   component: SearchResultsPage,
 })
 
+function labelFor(hit: SearchHit): string {
+  if (hit.kind !== 'service') return hit.category
+  return 'Information service'
+}
+
 function SearchResultsPage() {
   const { q } = Route.useSearch()
-  const hits = q ? search(q) : []
+  const query = q.trim()
+  const hits = query ? search(query) : []
+  const hasResults = query && hits.length > 0
+  const hasNoResults = query && hits.length === 0
 
   return (
     <>
-      <div className="container py-4 lg:py-6">
-        <Breadcrumbs />
-      </div>
-      <div className="container pt-4 pb-8 lg:py-8">
-        <div className="space-y-4 lg:space-y-6">
-          <Heading as="h1">
-            {q ? `Results for “${q}”` : 'Search'}
-          </Heading>
-          <Text as="p" className="text-mid-grey-00">
-            {q
-              ? `${hits.length} ${hits.length === 1 ? 'result' : 'results'}`
-              : 'Enter a search above to find a service.'}
-          </Text>
-        </div>
-
-        {q && hits.length === 0 ? (
-          <Text as="p" className="mt-6">
-            No matches. Try different keywords or browse the categories on the
-            homepage.
-          </Text>
-        ) : null}
-
-        {hits.length > 0 ? (
-          <div className="mt-6 flex flex-col">
-            {hits.map((hit) => (
-              <div
-                key={hit.id}
-                className="border-grey-00 border-t-2 py-4 first:border-0 lg:py-8"
-              >
-                <a
-                  href={hit.href}
-                  className={`${linkVariants()} cursor-pointer text-[20px] leading-normal lg:text-3xl`}
-                >
-                  {hit.title}
-                </a>
-                <Text as="p" className="mt-1 text-mid-grey-00">
-                  {hit.category}
-                </Text>
-                {hit.description ? (
-                  <Text as="p" className="mt-1">
-                    {hit.description}
-                  </Text>
-                ) : null}
-              </div>
-            ))}
+      <section className="border-teal-40 border-b-4 bg-teal-10 py-8">
+        <div className="container">
+          <div className="flex flex-col gap-2">
+            <Text as="p" className="font-bold">
+              Search for a service
+            </Text>
+            <SearchInput
+              action="/search-results"
+              name="q"
+              label="Search for a service"
+              buttonLabel="Search"
+              defaultValue={query}
+            />
           </div>
-        ) : null}
-      </div>
+        </div>
+      </section>
+
+      <section className="pt-4 pb-8">
+        <div className="container">
+          <div aria-live="polite">
+            <Heading as="h2" className="mb-s">
+              Search results
+            </Heading>
+
+            {hasResults ? (
+              <Text as="p" className="mb-s">
+                {hits.length} search {hits.length === 1 ? 'result' : 'results'}{' '}
+                for &ldquo;<strong>{query}</strong>&rdquo;{' '}
+                {hits.length === 1 ? 'was' : 'were'} found
+              </Text>
+            ) : null}
+
+            {hasNoResults ? (
+              <div className="space-y-s">
+                <Text as="p">
+                  We could not find any results for &ldquo;
+                  <strong>{query}</strong>&rdquo;
+                </Text>
+                <Text as="p">You can try:</Text>
+                <ul className="list-disc space-y-xs ps-m">
+                  <li>
+                    <Text as="span">checking your spelling</Text>
+                  </li>
+                  <li>
+                    <Text as="span">using different words</Text>
+                  </li>
+                </ul>
+                <Text as="p">
+                  You can also{' '}
+                  <Link className="inline" href="/services">
+                    browse all government services
+                  </Link>
+                  .
+                </Text>
+              </div>
+            ) : null}
+
+            {hasResults ? (
+              <ul className="flex flex-col gap-s">
+                {hits.map((hit) => (
+                  <li
+                    key={hit.id}
+                    className="flex flex-col items-start gap-xs border-grey-00 border-b-2 py-s first:pt-0"
+                  >
+                    <Link
+                      className="text-[20px] leading-normal"
+                      href={hit.href}
+                    >
+                      {hit.title}
+                    </Link>
+                    {hit.description ? (
+                      <Text as="p" className="hidden lg:block">
+                        {hit.description}
+                      </Text>
+                    ) : null}
+                    <Text as="p" className="text-mid-grey-00">
+                      {labelFor(hit)}
+                    </Text>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </div>
+      </section>
     </>
   )
 }
