@@ -19,20 +19,6 @@ export const ORG_PREFIXES: ReadonlyArray<readonly [string, OrgKind]> = [
 export const orgHref = (slug: string): string =>
   `/government/organisations/${slug}`
 
-const normaliseName = (s: string) =>
-  s.toLowerCase().replace(/\s+/g, ' ').trim()
-
-const ORG_HREF_BY_NAME = new Map<string, string>(
-  [...MINISTRIES, ...DEPARTMENTS, ...STATE_BODIES].map((o) => [
-    normaliseName(o.name),
-    orgHref(o.slug),
-  ]),
-)
-
-export function orgHrefByName(name: string): string | undefined {
-  return ORG_HREF_BY_NAME.get(normaliseName(name))
-}
-
 /** Strips a leading slash so callers can pass either a slug or a pathname. */
 export function resolveOrgPath(
   pathOrSlug: string,

@@ -60,56 +60,31 @@ export const MINISTRIES: Ministry[] = [
     ],
     originalSource: "https://www.gov.bb/Ministries/prime-minister-office",
     associatedDepartments: [
-      { category: "Cabinet Office", items: ["Electoral Department"] },
+      { category: "Cabinet Office", items: [{ name: "Electoral Department", slug: "electoral" }] },
       {
         category: "Finance",
-        items: [
-          "Central Purchasing",
-          "The Customs Department",
-          "Barbados Revenue Authority",
-          "The Treasury Department",
-          "The Central Bank of Barbados",
-          "Financial Services Commission",
-        ],
+        items: [{ name: "Central Purchasing", slug: "central-purchasing" }, { name: "The Customs Department", slug: "customs" }, { name: "Barbados Revenue Authority", slug: "revenue-authority" }, { name: "The Treasury Department", slug: "treasury" }, { name: "The Central Bank of Barbados", slug: "central-bank" }, { name: "Financial Services Commission", slug: "financial-services-commission" }],
       },
       {
         category: "Economic Affairs",
-        items: ["The Statistical Services Department"],
+        items: [{ name: "The Statistical Services Department", slug: "statistical-services" }],
       },
       {
         category: "Investment",
-        items: [
-          "The Barbados Tourism Investment Inc.",
-          "Kensington Oval Management Inc.",
-          "Public Investment Unit",
-        ],
+        items: [{ name: "The Barbados Tourism Investment Inc.", slug: "tourism-investment" }, { name: "Kensington Oval Management Inc.", slug: "kensington-oval" }, { name: "Public Investment Unit", slug: "public-investment-unit" }],
       },
-      { category: "National Security", items: ["The Barbados Defence Force"] },
+      { category: "National Security", items: [{ name: "The Barbados Defence Force", slug: "defence-force" }] },
       {
         category: "Public Service",
-        items: [
-          "Directorate, Human Resource Policy and Staffing",
-          "Directorate, People Resourcing and Compliance",
-          "Directorate, Learning and Development",
-        ],
+        items: [{ name: "Directorate, Human Resource Policy and Staffing", slug: "directorate-human-resource" }, { name: "Directorate, People Resourcing and Compliance", slug: "directorate-people-resourcing-and-compliance" }, { name: "Directorate, Learning and Development", slug: "directorate-learning-development" }],
       },
       {
         category: "Social Security",
-        items: [
-          "National Insurance Department",
-          "National Insurance Board",
-          "National Insurance - Old Age Pensions",
-          "Severance Payments",
-        ],
+        items: [{ name: "National Insurance Department", slug: "national-insurance" }, { name: "National Insurance Board", slug: "national-insurance" }, { name: "National Insurance - Old Age Pensions" }, { name: "Severance Payments" }],
       },
       {
         category: "Culture",
-        items: [
-          "The Department of Archives",
-          "National Library Service",
-          "National Cultural Foundation",
-          "Barbados Museum and Historical Society",
-        ],
+        items: [{ name: "The Department of Archives", slug: "archives" }, { name: "National Library Service", slug: "library-service" }, { name: "National Cultural Foundation", slug: "national-cultural-foundation" }, { name: "Barbados Museum and Historical Society", slug: "museum-historical-society" }],
       },
     ],
   },
@@ -144,12 +119,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/attorney-general",
     associatedDepartments: [
       {
-        items: [
-          "The Registration Department",
-          "The Supreme Court",
-          "The Police Department",
-          "The Criminal Justice Research and Planning Unit",
-        ],
+        items: [{ name: "The Registration Department", slug: "registration" }, { name: "The Supreme Court", slug: "supreme-court" }, { name: "The Police Department", slug: "police-department" }, { name: "The Criminal Justice Research and Planning Unit", slug: "criminal-justice" }],
       },
     ],
   },
@@ -175,7 +145,7 @@ export const MINISTRIES: Ministry[] = [
     ],
     originalSource: "https://www.gov.bb/Ministries/cabinet-office",
     associatedDepartments: [
-      { items: ["The Electoral and Boundaries Commission"] },
+      { items: [{ name: "The Electoral and Boundaries Commission", slug: "electoral" }] },
     ],
   },
   {
@@ -215,17 +185,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/agriculture",
     associatedDepartments: [
       {
-        items: [
-          "The Public Markets",
-          "Analytical Services",
-          "The Barbados Agricultural Management Company",
-          "The Barbados Agricultural Development and Marketing Corporation (BADMC)",
-          "Veterinary Services",
-          "Soil Conservation",
-          "Southern Meats Inc.",
-          "The Barbados Agricultural Credit Trust Limited",
-          "Barbados Medicinal Cannabis Licencing Authority",
-        ],
+        items: [{ name: "The Public Markets", slug: "public-markets" }, { name: "Analytical Services", slug: "analytical-services" }, { name: "The Barbados Agricultural Management Company", slug: "agricultural-management" }, { name: "The Barbados Agricultural Development and Marketing Corporation (BADMC)", slug: "agricultural-development-marketing" }, { name: "Veterinary Services", slug: "veterinary-services" }, { name: "Soil Conservation", slug: "soil-conservation" }, { name: "Southern Meats Inc.", slug: "southern-meats" }, { name: "The Barbados Agricultural Credit Trust Limited", slug: "agricultural-credit-trust" }, { name: "Barbados Medicinal Cannabis Licencing Authority", slug: "medicinal-cannabis" }],
       },
     ],
   },
@@ -275,12 +235,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/education",
     associatedDepartments: [
       {
-        items: [
-          "The School Meals Department",
-          "Media Resource Department",
-          "The National Advisory Commission on Education",
-          "Schools (Pre-Primary, Primary, Secondary, Special Needs)",
-        ],
+        items: [{ name: "The School Meals Department", slug: "school-meals" }, { name: "Media Resource Department", slug: "media-resource" }, { name: "The National Advisory Commission on Education" }, { name: "Schools (Pre-Primary, Primary, Secondary, Special Needs)" }],
       },
     ],
   },
@@ -315,32 +270,19 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Energy",
-        items: [
-          "Barbados National Oil Company Limited",
-          "Barbados National Terminal Company Limited",
-          "National Petroleum Corporation",
-        ],
+        items: [{ name: "Barbados National Oil Company Limited", slug: "national-oil-company" }, { name: "Barbados National Terminal Company Limited", slug: "national-terminal-co" }, { name: "National Petroleum Corporation", slug: "national-petroleum" }],
       },
       {
         category: "Small Business",
-        items: ["Small Business Development Unit"],
+        items: [{ name: "Small Business Development Unit", slug: "small-business-dev-unit" }],
       },
       {
         category: "Commerce",
-        items: [
-          "Fair Trading Commission",
-          "Office of Public Counsel",
-          "The Barbados National Standards Institution",
-          "Office of Public Counsel",
-          "Barbados Coalition of Service Industries",
-        ],
+        items: [{ name: "Fair Trading Commission", slug: "fair-trading-commission" }, { name: "Office of Public Counsel", slug: "public-counsel" }, { name: "The Barbados National Standards Institution", slug: "national-standards" }, { name: "Office of Public Counsel", slug: "public-counsel" }, { name: "Barbados Coalition of Service Industries", slug: "coalition-services" }],
       },
       {
         category: "International Business",
-        items: [
-          "Corporate Affairs and Intellectual Property Office",
-          "International Business and Financial Services Unit",
-        ],
+        items: [{ name: "Corporate Affairs and Intellectual Property Office", slug: "corporate-affairs" }, { name: "International Business and Financial Services Unit" }],
       },
     ],
   },
@@ -385,18 +327,15 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Environment",
-        items: [
-          "Environmental Protection Department",
-          "Sanitation Services Authority",
-        ],
+        items: [{ name: "Environmental Protection Department", slug: "environmental-protection" }, { name: "Sanitation Services Authority", slug: "sanitation-services" }],
       },
       {
         category: "National Beautification",
-        items: ["National Conservation Commission"],
+        items: [{ name: "National Conservation Commission", slug: "national-conservation-commission" }],
       },
       {
         category: "Blue Economy",
-        items: ["Fisheries Division", "Coastal Zone Management Unit"],
+        items: [{ name: "Fisheries Division", slug: "fisheries" }, { name: "Coastal Zone Management Unit", slug: "coastal-zone" }],
       },
     ],
   },
@@ -458,15 +397,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/finance-economic-affairs",
     associatedDepartments: [
       {
-        items: [
-          "Treasury Department",
-          "Statistical Services Department",
-          "Central Purchasing Department",
-          "Special Projects - Financial",
-          "Public Investment Unit",
-          "Economic and Social Planning Development",
-          "The Productivity Council",
-        ],
+        items: [{ name: "Treasury Department", slug: "treasury" }, { name: "Statistical Services Department", slug: "statistical-services" }, { name: "Central Purchasing Department", slug: "central-purchasing" }, { name: "Special Projects - Financial" }, { name: "Public Investment Unit", slug: "public-investment-unit" }, { name: "Economic and Social Planning Development" }, { name: "The Productivity Council", slug: "productivity-council" }],
       },
     ],
   },
@@ -501,7 +432,7 @@ export const MINISTRIES: Ministry[] = [
       },
     ],
     originalSource: "https://www.gov.bb/Ministries/foreign-affairs",
-    associatedDepartments: [{ items: ["Consular and Diaspora Division"] }],
+    associatedDepartments: [{ items: [{ name: "Consular and Diaspora Division", slug: "consular-diaspora" }] }],
   },
   {
     slug: "ministry-of-health-and-wellness",
@@ -540,11 +471,7 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Health",
-        items: [
-          "Barbados Drug Service",
-          "The Queen Elizabeth Hospital",
-          "The Psychiatric Hospital",
-        ],
+        items: [{ name: "Barbados Drug Service", slug: "drug-service" }, { name: "The Queen Elizabeth Hospital", slug: "queen-elizabeth-hospital" }, { name: "The Psychiatric Hospital", slug: "psychiatric-hospital" }],
       },
     ],
   },
@@ -653,25 +580,11 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Home Affairs",
-        items: [
-          "The Department of Emergency Management",
-          "The Meteorological Office",
-          "The Fire Service Department",
-          "The Post Office",
-          "The Probation Department",
-          "The Immigration Department",
-          "The Government Industrial Schools",
-          "Barbados Prison Service",
-          "The National Council on Substance Abuse",
-        ],
+        items: [{ name: "The Department of Emergency Management", slug: "emergency-management" }, { name: "The Meteorological Office", slug: "meteorological-department" }, { name: "The Fire Service Department", slug: "fire-service" }, { name: "The Post Office", slug: "post-office" }, { name: "The Probation Department", slug: "probation" }, { name: "The Immigration Department", slug: "immigration" }, { name: "The Government Industrial Schools", slug: "industrial-school" }, { name: "Barbados Prison Service", slug: "prison" }, { name: "The National Council on Substance Abuse", slug: "council-substance-abuse" }],
       },
       {
         category: "Information and Public Affairs",
-        items: [
-          "Caribbean Broadcasting Corporation",
-          "The Government Information Service",
-          "The Government Printing Department",
-        ],
+        items: [{ name: "Caribbean Broadcasting Corporation", slug: "caribbean-broadcasting-corporation" }, { name: "The Government Information Service", slug: "gov-information-service" }, { name: "The Government Printing Department", slug: "printing-dept" }],
       },
     ],
   },
@@ -703,13 +616,10 @@ export const MINISTRIES: Ministry[] = [
     ],
     originalSource: "https://www.gov.bb/Ministries/housing",
     associatedDepartments: [
-      { category: "Housing", items: ["The National Housing Corporation"] },
+      { category: "Housing", items: [{ name: "The National Housing Corporation", slug: "national-housing-corporation" }] },
       {
         category: "Lands",
-        items: [
-          "The Land Registration Department",
-          "The Lands and Surveys Department",
-        ],
+        items: [{ name: "The Land Registration Department", slug: "land-registry" }, { name: "The Lands and Surveys Department", slug: "land-surveys" }],
       },
     ],
   },
@@ -757,24 +667,12 @@ export const MINISTRIES: Ministry[] = [
       "https://www.gov.bb/Ministries/innovation-science-smart-technology",
     associatedDepartments: [
       {
-        items: [
-          "Corporate Services",
-          "Technical Management",
-          "Customer Support",
-          "Data Protection Commission",
-          "Legal Unit",
-          "Programme Execution Unit",
-        ],
+        items: [{ name: "Corporate Services" }, { name: "Technical Management" }, { name: "Customer Support" }, { name: "Data Protection Commission" }, { name: "Legal Unit" }, { name: "Programme Execution Unit" }],
       },
-      { category: "Industry", items: ["Industry Unit"] },
+      { category: "Industry", items: [{ name: "Industry Unit" }] },
       {
         category: "Innovation, Science and Technology",
-        items: [
-          "Science, Market Research and Innovation",
-          "Digital Infrastructure",
-          "Digital Solutions",
-          "Efficiency Unit",
-        ],
+        items: [{ name: "Science, Market Research and Innovation" }, { name: "Digital Infrastructure" }, { name: "Digital Solutions" }, { name: "Efficiency Unit" }],
       },
     ],
   },
@@ -826,8 +724,8 @@ export const MINISTRIES: Ministry[] = [
     ],
     originalSource: "https://www.gov.bb/Ministries/labour-social-security",
     associatedDepartments: [
-      { category: "Labour", items: ["The Labour Department"] },
-      { category: "Social Security", items: ["National Insurance Department"] },
+      { category: "Labour", items: [{ name: "The Labour Department", slug: "labour" }] },
+      { category: "Social Security", items: [{ name: "National Insurance Department", slug: "national-insurance" }] },
     ],
   },
   {
@@ -902,15 +800,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/social-care",
     associatedDepartments: [
       {
-        items: [
-          "[The National Assistance Board",
-          "Poverty Alleviation Bureau",
-          "The Child Care Board",
-          "Bureau of Social Policy, Research and Planning",
-          "Bureau of Gender Affairs",
-          "Welfare Department",
-          "National Disabilities Unit",
-        ],
+        items: [{ name: "[The National Assistance Board", slug: "national-assistance" }, { name: "Poverty Alleviation Bureau", slug: "poverty-alleviation" }, { name: "The Child Care Board", slug: "child-care-board" }, { name: "Bureau of Social Policy, Research and Planning", slug: "social-policy-research-planning" }, { name: "Bureau of Gender Affairs", slug: "gender-affairs" }, { name: "Welfare Department", slug: "welfare" }, { name: "National Disabilities Unit", slug: "disabilities-unit" }],
       },
     ],
   },
@@ -940,11 +830,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/public-service",
     associatedDepartments: [
       {
-        items: [
-          "Directorate, Human Resource Policy and Staffing",
-          "Directorate, Learning and Development",
-          "Directorate, People Resourcing and Compliance",
-        ],
+        items: [{ name: "Directorate, Human Resource Policy and Staffing", slug: "directorate-human-resource" }, { name: "Directorate, Learning and Development", slug: "directorate-learning-development" }, { name: "Directorate, People Resourcing and Compliance", slug: "directorate-people-resourcing-and-compliance" }],
       },
     ],
   },
@@ -1000,20 +886,13 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Tourism",
-        items: [
-          "Barbados Tourism Marketing Inc. (BTMI)",
-          "The Barbados Conference Services Limited (BCSL)",
-          "Caves of Barbados Limited (CBL)",
-        ],
+        items: [{ name: "Barbados Tourism Marketing Inc. (BTMI)", slug: "btmi" }, { name: "The Barbados Conference Services Limited (BCSL)", slug: "conference-services" }, { name: "Caves of Barbados Limited (CBL)", slug: "caves-of-barbados" }],
       },
       {
         category: "International Transport",
-        items: [
-          "Barbados Civil Aviation Department (BCAD)",
-          "Grantley Adams International Airport Inc. (GAIA)",
-        ],
+        items: [{ name: "Barbados Civil Aviation Department (BCAD)" }, { name: "Grantley Adams International Airport Inc. (GAIA)", slug: "grantley-adams-international" }],
       },
-      { category: "Port Management", items: ["Barbados Port Inc."] },
+      { category: "Port Management", items: [{ name: "Barbados Port Inc.", slug: "barbados-port" }] },
     ],
   },
   {
@@ -1028,15 +907,7 @@ export const MINISTRIES: Ministry[] = [
     originalSource: "https://www.gov.bb/Ministries/training-tertiary-education",
     associatedDepartments: [
       {
-        items: [
-          "Barbados Community College",
-          "The Samuel Jackman Prescod Institute of Technology",
-          "University of the West Indies",
-          "Erdiston Teachers' Training College",
-          "Barbados Vocational Training Board",
-          "Technical & Vocational Education and Training Council",
-          "The Barbados Accreditation Council",
-        ],
+        items: [{ name: "Barbados Community College", slug: "community-college" }, { name: "The Samuel Jackman Prescod Institute of Technology", slug: "samuel-jackson-prescod-polytechnic" }, { name: "University of the West Indies", slug: "uwi" }, { name: "Erdiston Teachers' Training College", slug: "erdiston-teacher-training" }, { name: "Barbados Vocational Training Board", slug: "vocational-training-board" }, { name: "Technical & Vocational Education and Training Council", slug: "technical-vocational-education" }, { name: "The Barbados Accreditation Council", slug: "accreditation-council" }],
       },
     ],
   },
@@ -1090,10 +961,10 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Transport",
-        items: ["Barbados Licensing Authority", "Transport Board"],
+        items: [{ name: "Barbados Licensing Authority", slug: "licensing-authority" }, { name: "Transport Board", slug: "transport-board" }],
       },
-      { category: "Works", items: ["Electrical Engineering Department"] },
-      { category: "Water Resources", items: ["Barbados Water Authority"] },
+      { category: "Works", items: [{ name: "Electrical Engineering Department", slug: "electrical-engineering" }] },
+      { category: "Water Resources", items: [{ name: "Barbados Water Authority", slug: "water-authority" }] },
     ],
   },
   {
@@ -1136,12 +1007,12 @@ export const MINISTRIES: Ministry[] = [
     associatedDepartments: [
       {
         category: "Youth Affairs",
-        items: ["Division of Youth Affairs", "Youth Entrepreneurship Scheme"],
+        items: [{ name: "Division of Youth Affairs", slug: "youth-affairs" }, { name: "Youth Entrepreneurship Scheme", slug: "youth-entrepreneurship-scheme" }],
       },
-      { category: "Sports", items: ["The National Sports Council"] },
+      { category: "Sports", items: [{ name: "The National Sports Council", slug: "sports-council" }] },
       {
         category: "Community Empowerment",
-        items: ["Community Development Department"],
+        items: [{ name: "Community Development Department", slug: "community-development" }],
       },
     ],
   },

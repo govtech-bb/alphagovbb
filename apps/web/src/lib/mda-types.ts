@@ -26,9 +26,15 @@ export interface Minister {
   photo?: string;
 }
 
+export interface AssociatedDepartmentItem {
+  name: string;
+  /** Slug of a Ministry / DEPARTMENT / STATE_BODY entry. When set, the name renders as a link to /government/organisations/{slug}. */
+  slug?: string;
+}
+
 export interface AssociatedDepartmentGroup {
   category?: string;
-  items: string[];
+  items: AssociatedDepartmentItem[];
 }
 
 export interface MdaEntry {
