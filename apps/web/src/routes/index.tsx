@@ -82,7 +82,7 @@ function Home() {
                 >
                   <a
                     href={`/${cat.slug}`}
-                    className={`${linkVariants()} mb-2 inline-block text-[20px] leading-normal lg:text-[1.5rem] lg:leading-[2rem]`}
+                    className={`${linkVariants()} cursor-pointer text-[20px] leading-normal lg:text-3xl`}
                   >
                     {cat.title}
                   </a>

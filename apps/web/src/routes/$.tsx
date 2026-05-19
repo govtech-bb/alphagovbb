@@ -103,7 +103,7 @@ function CategoryView({
             >
               <a
                 href={item.href}
-                className={`${linkVariants()} mb-2 inline-block text-[20px] leading-normal lg:text-[1.5rem] lg:leading-[2rem]`}
+                className={`${linkVariants()} cursor-pointer text-[20px] leading-normal lg:text-3xl`}
               >
                 {item.title}
               </a>
