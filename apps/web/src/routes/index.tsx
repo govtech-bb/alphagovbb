@@ -82,7 +82,7 @@ function Home() {
                 >
                   <a
                     href={`/${cat.slug}`}
-                    className={`${linkVariants()} cursor-pointer text-[20px] leading-normal lg:text-3xl`}
+                    className={`${linkVariants()} text-[20px] leading-normal lg:text-3xl`}
                   >
                     {cat.title}
                   </a>
