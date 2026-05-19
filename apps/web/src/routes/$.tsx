@@ -1,8 +1,7 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { Heading, Text, linkVariants } from '@govtech-bb/react'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
 import { Breadcrumbs } from '../components/Breadcrumbs'
+import { MarkdownContent } from '../components/MarkdownContent'
 import { findPage, PAGES, type ContentPage } from '../content/registry'
 import { CATEGORY_BY_SLUG, type Category } from '../content/categories'
 
@@ -24,13 +23,13 @@ export const Route = createFileRoute('/$')({
     if (segments.length === 1) {
       const cat = CATEGORY_BY_SLUG[segments[0]!]
       if (cat) {
-        const items = PAGES.filter((p) => p.meta.category === cat.slug).map(
-          (p) => ({
-            title: p.meta.title,
-            description: p.meta.description,
-            href: `/${p.url}`,
-          }),
-        )
+        const items = PAGES.filter(
+          (p) => p.frontmatter.category === cat.slug,
+        ).map((p) => ({
+          title: p.frontmatter.title,
+          description: p.frontmatter.description,
+          href: `/${p.url}`,
+        }))
         return { kind: 'category', category: cat, items }
       }
     }
@@ -44,12 +43,12 @@ export const Route = createFileRoute('/$')({
     if (loaderData.kind === 'page') {
       return {
         meta: [
-          { title: loaderData.page.meta.title },
-          ...(loaderData.page.meta.description
+          { title: loaderData.page.frontmatter.title },
+          ...(loaderData.page.frontmatter.description
             ? [
                 {
                   name: 'description',
-                  content: loaderData.page.meta.description,
+                  content: loaderData.page.frontmatter.description,
                 },
               ]
             : []),
@@ -70,18 +69,7 @@ function ContentRoute() {
 function PageView({ page }: { page: ContentPage }) {
   return (
     <Shell>
-      <div className="mb-xm lg:grid lg:grid-cols-3 lg:gap-16">
-        <div className="space-y-6 lg:col-span-2 lg:space-y-8">
-          <Heading as="h1" className="break-anywhere">
-            {page.meta.title}
-          </Heading>
-          <div className="prose max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {page.body}
-            </ReactMarkdown>
-          </div>
-        </div>
-      </div>
+      <MarkdownContent body={page.body} frontmatter={page.frontmatter} />
     </Shell>
   )
 }
@@ -119,11 +107,6 @@ function CategoryView({
               >
                 {item.title}
               </a>
-              {item.description ? (
-                <Text as="p" className="mt-1">
-                  {item.description}
-                </Text>
-              ) : null}
             </div>
           ))}
         </div>

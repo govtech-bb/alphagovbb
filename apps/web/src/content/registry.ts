@@ -1,37 +1,18 @@
+import matter from 'gray-matter'
+import {
+  FrontmatterSchema,
+  titleFromSlug,
+  type Frontmatter,
+} from '../lib/frontmatter'
 import { CATEGORIES, CATEGORY_BY_SLUG } from './categories'
-
-export interface PageMeta {
-  title: string
-  description?: string
-  category?: string
-}
 
 export interface ContentPage {
   /** Relative slug derived from filename, e.g. "register-a-birth" or "register-a-birth/start". */
   slug: string
   /** Full URL path with category prefix when present. */
   url: string
-  meta: PageMeta
+  frontmatter: Frontmatter
   body: string
-}
-
-function parseFrontmatter(raw: string): { meta: PageMeta; body: string } {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/)
-  if (!match) return { meta: { title: '' }, body: raw }
-  const [, fm, body] = match as unknown as [string, string, string]
-  const data: Record<string, string> = {}
-  for (const line of fm.split('\n')) {
-    const m = line.match(/^([a-zA-Z_]+):\s*"?([^"]*?)"?$/)
-    if (m) data[m[1]!] = m[2]!
-  }
-  return {
-    meta: {
-      title: data.title ?? '',
-      description: data.description,
-      category: data.category,
-    },
-    body,
-  }
 }
 
 function slugFromPath(path: string): string {
@@ -47,17 +28,28 @@ const modules = import.meta.glob('./**/*.md', {
   eager: true,
 }) as Record<string, string>
 
-export const PAGES: ContentPage[] = Object.entries(modules).map(
-  ([path, raw]) => {
+export const PAGES: Array<ContentPage> = Object.entries(modules).map(
+  ([path, source]) => {
     const slug = slugFromPath(path)
-    const { meta, body } = parseFrontmatter(raw)
-    if (meta.category && !CATEGORY_BY_SLUG[meta.category]) {
+    const { data, content } = matter(source)
+    const parsed = FrontmatterSchema.safeParse(data)
+    if (!parsed.success) {
       throw new Error(
-        `Page "${slug}" references unknown category "${meta.category}". Add it to src/content/categories.ts.`,
+        `Invalid frontmatter in src/content/${path.replace(/^\.\//, '')}: ${parsed.error.message}`,
       )
     }
-    const url = meta.category ? `${meta.category}/${slug}` : slug
-    return { slug, url, meta, body }
+    const raw = parsed.data
+    if (raw.category && !CATEGORY_BY_SLUG[raw.category]) {
+      throw new Error(
+        `Page "${slug}" references unknown category "${raw.category}". Add it to src/content/categories.ts.`,
+      )
+    }
+    const frontmatter: Frontmatter = {
+      ...raw,
+      title: raw.title ?? titleFromSlug(slug),
+    }
+    const url = frontmatter.category ? `${frontmatter.category}/${slug}` : slug
+    return { slug, url, frontmatter, body: content }
   },
 )
 
@@ -74,5 +66,5 @@ export function getCategoryTitle(slug: string): string | undefined {
 }
 
 export function getPageTitle(slug: string): string | undefined {
-  return PAGES.find((p) => p.slug.split('/').pop() === slug)?.meta.title
+  return PAGES.find((p) => p.slug.split('/').pop() === slug)?.frontmatter.title
 }
