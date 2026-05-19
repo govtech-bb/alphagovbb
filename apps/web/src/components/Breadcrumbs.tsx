@@ -1,10 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { linkVariants } from '@govtech-bb/react'
-import { CATEGORY_TITLES, PAGES } from '../content/registry'
-
-const PAGE_TITLES: Record<string, string> = Object.fromEntries(
-  PAGES.map((p) => [p.slug.split('/').pop()!, p.meta.title]),
-)
+import { getCategoryTitle, getPageTitle } from '../content/registry'
 
 function titleCase(slug: string): string {
   const raw = slug.replace(/-/g, ' ')
@@ -12,7 +8,7 @@ function titleCase(slug: string): string {
 }
 
 function titleForSegment(seg: string): string {
-  return CATEGORY_TITLES[seg] ?? PAGE_TITLES[seg] ?? titleCase(seg)
+  return getCategoryTitle(seg) ?? getPageTitle(seg) ?? titleCase(seg)
 }
 
 export function Breadcrumbs() {

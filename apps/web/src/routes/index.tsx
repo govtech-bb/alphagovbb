@@ -6,6 +6,7 @@ import {
   Text,
   linkVariants,
 } from '@govtech-bb/react'
+import { CATEGORIES } from '../content/categories'
 
 export const Route = createFileRoute('/')({
   head: () => ({
@@ -65,6 +66,34 @@ function Home() {
             <a href="/services" className={linkVariants()}>
               View all services
             </a>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div className="container">
+          <div className="space-y-4 py-8">
+            <Heading as="h2">Government services</Heading>
+            <ul className="m-0 flex list-none flex-col p-0">
+              {CATEGORIES.map((cat) => (
+                <li
+                  key={cat.slug}
+                  className="border-t-2 border-grey-00 py-4 first:border-0 lg:py-8"
+                >
+                  <a
+                    href={`/${cat.slug}`}
+                    className={`${linkVariants()} mb-2 inline-block text-[20px] leading-normal lg:text-[1.5rem] lg:leading-[2rem]`}
+                  >
+                    {cat.title}
+                  </a>
+                  {cat.description ? (
+                    <Text as="p" className="mt-1">
+                      {cat.description}
+                    </Text>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

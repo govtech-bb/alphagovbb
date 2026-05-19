@@ -1,52 +1,144 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
-import { Heading } from '@govtech-bb/react'
+import { Heading, Text, linkVariants } from '@govtech-bb/react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Breadcrumbs } from '../components/Breadcrumbs'
-import { findPage, type ContentPage } from '../content/registry'
+import { findPage, PAGES, type ContentPage } from '../content/registry'
+import { CATEGORY_BY_SLUG, type Category } from '../content/categories'
+
+interface CategoryListItem {
+  title: string
+  description?: string
+  href: string
+}
+
+type LoaderData =
+  | { kind: 'page'; page: ContentPage }
+  | { kind: 'category'; category: Category; items: CategoryListItem[] }
 
 export const Route = createFileRoute('/$')({
-  loader: ({ params }): ContentPage => {
-    const splat = params._splat ?? ''
+  loader: ({ params }): LoaderData => {
+    const splat = (params._splat ?? '').replace(/^\/+|\/+$/g, '')
+    const segments = splat.split('/').filter(Boolean)
+
+    if (segments.length === 1) {
+      const cat = CATEGORY_BY_SLUG[segments[0]!]
+      if (cat) {
+        const items = PAGES.filter((p) => p.meta.category === cat.slug).map(
+          (p) => ({
+            title: p.meta.title,
+            description: p.meta.description,
+            href: `/${p.url}`,
+          }),
+        )
+        return { kind: 'category', category: cat, items }
+      }
+    }
+
     const page = findPage(splat)
-    if (!page) throw notFound()
-    return page
+    if (page) return { kind: 'page', page }
+    throw notFound()
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {}
-    return {
-      meta: [
-        { title: loaderData.meta.title },
-        ...(loaderData.meta.description
-          ? [{ name: 'description', content: loaderData.meta.description }]
-          : []),
-      ],
+    if (loaderData.kind === 'page') {
+      return {
+        meta: [
+          { title: loaderData.page.meta.title },
+          ...(loaderData.page.meta.description
+            ? [
+                {
+                  name: 'description',
+                  content: loaderData.page.meta.description,
+                },
+              ]
+            : []),
+        ],
+      }
     }
+    return { meta: [{ title: loaderData.category.title }] }
   },
   component: ContentRoute,
 })
 
 function ContentRoute() {
-  const page = Route.useLoaderData()
+  const data = Route.useLoaderData()
+  if (data.kind === 'page') return <PageView page={data.page} />
+  return <CategoryView category={data.category} items={data.items} />
+}
+
+function PageView({ page }: { page: ContentPage }) {
+  return (
+    <Shell>
+      <div className="mb-xm lg:grid lg:grid-cols-3 lg:gap-16">
+        <div className="space-y-6 lg:col-span-2 lg:space-y-8">
+          <Heading as="h1" className="break-anywhere">
+            {page.meta.title}
+          </Heading>
+          <div className="prose max-w-none">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {page.body}
+            </ReactMarkdown>
+          </div>
+        </div>
+      </div>
+    </Shell>
+  )
+}
+
+function CategoryView({
+  category,
+  items,
+}: {
+  category: Category
+  items: CategoryListItem[]
+}) {
+  const sorted = [...items].sort((a, b) => a.title.localeCompare(b.title))
+  return (
+    <Shell>
+      <div className="space-y-4 lg:space-y-6">
+        <Heading as="h1">{category.title}</Heading>
+        {category.description ? (
+          <Text as="p">{category.description}</Text>
+        ) : null}
+      </div>
+      {sorted.length === 0 ? (
+        <Text as="p" className="mt-6 text-mid-grey-00">
+          No services yet.
+        </Text>
+      ) : (
+        <div className="mt-6 flex flex-col">
+          {sorted.map((item) => (
+            <div
+              key={item.href}
+              className="border-grey-00 border-t-2 py-4 first:border-0 lg:py-8"
+            >
+              <a
+                href={item.href}
+                className={`${linkVariants()} mb-2 inline-block text-[20px] leading-normal lg:text-[1.5rem] lg:leading-[2rem]`}
+              >
+                {item.title}
+              </a>
+              {item.description ? (
+                <Text as="p" className="mt-1">
+                  {item.description}
+                </Text>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      )}
+    </Shell>
+  )
+}
+
+function Shell({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="container py-4 lg:py-6">
         <Breadcrumbs />
       </div>
-      <div className="container pt-4 pb-8 lg:py-8">
-        <div className="mb-xm lg:grid lg:grid-cols-3 lg:gap-16">
-          <div className="space-y-6 lg:col-span-2 lg:space-y-8">
-            <Heading as="h1" className="break-anywhere">
-              {page.meta.title}
-            </Heading>
-            <div className="prose max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {page.body}
-              </ReactMarkdown>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div className="container pt-4 pb-8 lg:py-8">{children}</div>
     </>
   )
 }
