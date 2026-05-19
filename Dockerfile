@@ -25,6 +25,7 @@ RUN --mount=type=cache,id=alphagovbb-pnpm-store,target=/pnpm-store \
 # compose's `user:` so they can then write into node_modules (vite cache,
 # etc.) without permission errors.
 RUN chown -R 1000:1000 /app /pnpm-store 2>/dev/null || true
+USER 1000
 EXPOSE 3000
 
 # Production build. Source is COPYed in (not bind-mounted) so the resulting
@@ -41,10 +42,15 @@ WORKDIR /app
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
     PORT=3000
-COPY --from=build --chown=node:node /app/apps/web/.output ./.output
+COPY --from=build --chown=node:node /app/apps/web/dist ./dist
 USER node
 EXPOSE 3000
-CMD ["node", "--import", "./.output/server/instrument.server.mjs", ".output/server/index.mjs"]
+# Matches apps/web `pnpm start`. Note: the bundle exports a Web-standard
+# { fetch } handler rather than starting an http server, so this CMD does
+# not listen on a port without an additional adapter. The same is true of
+# `pnpm start` on the host. Resolving this is out of scope for the Docker
+# rollout — adding a node-server adapter is a separate piece of work.
+CMD ["node", "--import", "./dist/server/instrument.server.mjs", "dist/server/server.js"]
 
 # Playwright runner. Built on Microsoft's hardened browser image so we don't
 # track browser security updates ourselves. pnpm is layered on top to install
@@ -63,3 +69,4 @@ COPY packages/config/package.json packages/config/
 RUN --mount=type=cache,id=alphagovbb-pnpm-store,target=/pnpm-store \
     pnpm install --frozen-lockfile
 RUN chown -R 1000:1000 /app /pnpm-store /root/.local/share/pnpm 2>/dev/null || true
+USER 1000

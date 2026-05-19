@@ -61,6 +61,12 @@ services:
   semgrep:
     profiles: [verify]
     image: returntocorp/semgrep:latest
+    user: *host-user
+    # semgrep writes its rule cache somewhere under HOME; point it at /tmp so
+    # the host user (which may not have a passwd entry in the image) can
+    # write.
+    environment:
+      HOME: /tmp
     working_dir: /src
     command: ["semgrep", "scan", "--config=auto", "--error"]
     volumes:
