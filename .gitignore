@@ -1,0 +1,14 @@
+node_modules
+.turbo
+.output
+.tanstack
+.nitro
+.wrangler
+.next
+dist
+build
+*.log
+.env
+.env.local
+.DS_Store
+coverage
