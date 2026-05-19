@@ -17,6 +17,7 @@
     "start": "node --import ./.output/server/instrument.server.mjs .output/server/index.mjs"
   },
   "dependencies": {
+    "@aws-sdk/client-sesv2": "^3.1050.0",
     "@fontsource/figtree": "^5.0.0",
     "@govtech-bb/design": "^1.0.0-alpha.14",
     "@govtech-bb/react": "^1.0.0-alpha.14",

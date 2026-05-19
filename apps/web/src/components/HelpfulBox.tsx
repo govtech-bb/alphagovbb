@@ -7,7 +7,12 @@ interface HelpfulBoxProps {
 
 export function HelpfulBox({ className }: HelpfulBoxProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname })
-  const href = `/tell-us?from=${encodeURIComponent(pathname)}`
+
+  const handleClick = () => {
+    if (typeof window !== 'undefined') {
+      sessionStorage.setItem('feedbackReferrer', pathname)
+    }
+  }
 
   return (
     <aside
@@ -15,7 +20,7 @@ export function HelpfulBox({ className }: HelpfulBoxProps) {
     >
       <Heading as="h3">Was this helpful?</Heading>
       <Text as="p">Give us your feedback about this page.</Text>
-      <Link href={href} variant="secondary">
+      <Link href="/feedback" onClick={handleClick} variant="secondary">
         Help us improve alpha.gov.bb
       </Link>
     </aside>
