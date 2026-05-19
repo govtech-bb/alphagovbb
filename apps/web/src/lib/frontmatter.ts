@@ -12,6 +12,7 @@ export const FrontmatterSchema = z.object({
   stage: z.enum(['alpha']).optional(),
   featured: z.boolean().optional(),
   section: z.string().optional(),
+  service_type: z.enum(['digital', 'information']).optional(),
 })
 
 export type RawFrontmatter = z.infer<typeof FrontmatterSchema>

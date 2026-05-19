@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ServiceUnavailableRouteImport } from './routes/service-unavailable'
 import { Route as SearchResultsRouteImport } from './routes/search-results'
 import { Route as JavascriptRequiredRouteImport } from './routes/javascript-required'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServiceUnavailableRoute = ServiceUnavailableRouteImport.update({
   id: '/service-unavailable',
   path: '/service-unavailable',
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
   '/service-unavailable': typeof ServiceUnavailableRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
   '/service-unavailable': typeof ServiceUnavailableRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
   '/service-unavailable': typeof ServiceUnavailableRoute
+  '/services': typeof ServicesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +80,7 @@ export interface FileRouteTypes {
     | '/javascript-required'
     | '/search-results'
     | '/service-unavailable'
+    | '/services'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +88,7 @@ export interface FileRouteTypes {
     | '/javascript-required'
     | '/search-results'
     | '/service-unavailable'
+    | '/services'
   id:
     | '__root__'
     | '/'
@@ -85,6 +96,7 @@ export interface FileRouteTypes {
     | '/javascript-required'
     | '/search-results'
     | '/service-unavailable'
+    | '/services'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,10 +105,18 @@ export interface RootRouteChildren {
   JavascriptRequiredRoute: typeof JavascriptRequiredRoute
   SearchResultsRoute: typeof SearchResultsRoute
   ServiceUnavailableRoute: typeof ServiceUnavailableRoute
+  ServicesRoute: typeof ServicesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/service-unavailable': {
       id: '/service-unavailable'
       path: '/service-unavailable'
@@ -141,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   JavascriptRequiredRoute: JavascriptRequiredRoute,
   SearchResultsRoute: SearchResultsRoute,
   ServiceUnavailableRoute: ServiceUnavailableRoute,
+  ServicesRoute: ServicesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

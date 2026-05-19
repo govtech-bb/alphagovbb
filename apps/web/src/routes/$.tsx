@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from '@tanstack/react-router'
 import { Heading, Text, linkVariants } from '@govtech-bb/react'
 import { Breadcrumbs } from '../components/Breadcrumbs'
+import { HelpfulBox } from '../components/HelpfulBox'
 import { MarkdownContent } from '../components/MarkdownContent'
 import { findPage, PAGES, type ContentPage } from '../content/registry'
 import { CATEGORY_BY_SLUG, type Category } from '../content/categories'
@@ -122,6 +123,9 @@ function Shell({ children }: { children: React.ReactNode }) {
         <Breadcrumbs />
       </div>
       <div className="container pt-4 pb-8 lg:py-8">{children}</div>
+      <div className="container">
+        <HelpfulBox className="mb-4 lg:mb-16" />
+      </div>
     </>
   )
 }
