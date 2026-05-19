@@ -1,0 +1,97 @@
+name: alphagovbb
+
+# Named volumes mask /app/node_modules paths so that bind-mounting the host
+# repo over /app does not hide the image's installed dependencies. The e2e
+# stack uses its own set because the Playwright base image (Ubuntu) may have
+# native modules incompatible with the Debian-based deps image.
+volumes:
+  node_modules_root:
+  node_modules_web:
+  node_modules_config:
+  node_modules_e2e_root:
+  node_modules_e2e_web:
+  node_modules_e2e_config:
+
+x-node-volumes: &node-volumes
+  - .:/app
+  - node_modules_root:/app/node_modules
+  - node_modules_web:/app/apps/web/node_modules
+  - node_modules_config:/app/packages/config/node_modules
+
+# Containers that touch the bind-mounted repo run as the host user, so the
+# files they create (logs, build artefacts) are owned by the host user and
+# can be cleaned up without sudo. check.sh / verify.sh export HOST_UID and
+# HOST_GID from `id`.
+x-host-user: &host-user "${HOST_UID:-1000}:${HOST_GID:-1000}"
+
+services:
+  dev:
+    profiles: [dev]
+    build:
+      context: .
+      target: deps
+    user: *host-user
+    # vite --host 0.0.0.0 so the dev server is reachable from outside the
+    # container. NODE_OPTIONS preserves the Sentry instrument import that the
+    # host-side `pnpm dev` script sets via dotenv-cli.
+    command:
+      - sh
+      - -c
+      - cd apps/web && NODE_OPTIONS='--import ./instrument.server.mjs' pnpm exec vite dev --port 3000 --host 0.0.0.0
+    ports:
+      - "3000:3000"
+    env_file:
+      - path: ./apps/web/.env.local
+        required: false
+    volumes: *node-volumes
+    tty: true
+    stdin_open: true
+
+  check:
+    profiles: [check, verify]
+    build:
+      context: .
+      target: deps
+    user: *host-user
+    # check.sh / verify.sh override `command` with the tool list they want;
+    # this default runs the fast pre-commit loop.
+    command: ["sh", "scripts/run-checks.sh", "vitest", "typecheck", "eslint", "prettier"]
+    volumes: *node-volumes
+
+  semgrep:
+    profiles: [verify]
+    image: returntocorp/semgrep:latest
+    working_dir: /src
+    command: ["semgrep", "scan", "--config=auto", "--error"]
+    volumes:
+      - .:/src:ro
+
+  app:
+    profiles: [verify]
+    build:
+      context: .
+      target: runtime
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:3000/', r => process.exit(r.statusCode < 500 ? 0 : 1)).on('error', () => process.exit(1))\""]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+      start_period: 10s
+
+  e2e:
+    profiles: [verify]
+    build:
+      context: .
+      target: e2e
+    user: *host-user
+    depends_on:
+      app:
+        condition: service_healthy
+    environment:
+      PLAYWRIGHT_BASE_URL: http://app:3000
+    command: ["pnpm", "--filter", "web", "exec", "playwright", "test"]
+    volumes:
+      - .:/app
+      - node_modules_e2e_root:/app/node_modules
+      - node_modules_e2e_web:/app/apps/web/node_modules
+      - node_modules_e2e_config:/app/packages/config/node_modules
