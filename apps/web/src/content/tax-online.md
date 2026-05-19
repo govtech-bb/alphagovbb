@@ -4,6 +4,7 @@ description: "Learn about TAMIS, an electronic platform provided by the Governme
 source_url: https://www.gov.bb/Citizens/tax-online
 publish_date: 2025-10-24
 section: "Work and Employment"
+category: money-financial-support
 ---
 
 ## File My Income Tax Online

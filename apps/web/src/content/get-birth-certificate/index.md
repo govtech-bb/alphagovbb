@@ -4,6 +4,7 @@ description: "Apply online to get a certified copy of a birth certificate for an
 stage: "alpha"
 featured: false
 publish_date: 2026-01-22
+category: family-birth-relationships
 ---
 
 This service can be used to get a copy of a birth certificate for anyone whose birth was registered in Barbados.

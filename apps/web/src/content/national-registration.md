@@ -4,6 +4,7 @@ description: "An overview of national registration in Barbados, outlining eligib
 source_url: https://www.gov.bb/Citizens/national-registration
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## National Registration

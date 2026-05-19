@@ -7,6 +7,7 @@ import remarkGfm from 'remark-gfm'
 import rehypeHideStartLinks from '../lib/rehype-hide-start-links'
 import rehypeSectionise from '../lib/rehype-sectionise'
 import type { Frontmatter } from '../lib/frontmatter'
+import { MigrationBanner } from './MigrationBanner'
 
 const PHONE_SLASH_RE = /^\((\d{3})\)\s*(\d{3})-(\d{4})\s*\/\s*(\d{4})$/
 const PHONE_RE = /^\((\d{3})\)\s*(\d{3})-(\d{4})$/
@@ -24,51 +25,53 @@ function extractCellText(children: ReactNode): string | null {
 }
 
 export const markdownComponents: Components = {
-  h1: ({ children, ...props }) => (
+  h1: ({ node: _node, children, ...props }) => (
     <Heading as="h1" {...props}>
       {children}
     </Heading>
   ),
-  h2: ({ children, ...props }) => (
+  h2: ({ node: _node, children, ...props }) => (
     <Heading as="h2" {...props}>
       {children}
     </Heading>
   ),
-  h3: ({ children, ...props }) => (
+  h3: ({ node: _node, children, ...props }) => (
     <Heading as="h3" {...props}>
       {children}
     </Heading>
   ),
-  h4: ({ children, ...props }) => (
+  h4: ({ node: _node, children, ...props }) => (
     <Heading as="h4" {...props}>
       {children}
     </Heading>
   ),
-  p: ({ children, ...props }) => (
+  p: ({ node: _node, children, ...props }) => (
     <Text as="p" size="body" {...props}>
       {children}
     </Text>
   ),
-  ul: ({ children, ...props }) => (
+  ul: ({ node: _node, children, ...props }) => (
     <ul className="list-disc pl-7" {...props}>
       {children}
     </ul>
   ),
-  ol: ({ children, ...props }) => (
+  ol: ({ node: _node, children, ...props }) => (
     <ol className="list-decimal space-y-4 pl-7" {...props}>
       {children}
     </ol>
   ),
-  li: ({ children, ...props }) => (
+  li: ({ node: _node, children, ...props }) => (
     <li className="space-y-s" {...props}>
       {children}
     </li>
   ),
-  hr: (props) => <hr className="my-8 border border-gray-100" {...props} />,
-  pre: (props) => (
+  hr: ({ node: _node, ...props }) => (
+    <hr className="my-8 border border-gray-100" {...props} />
+  ),
+  pre: ({ node: _node, ...props }) => (
     <pre className="overflow-x-auto whitespace-pre-wrap" {...props} />
   ),
-  a: ({ href, children, ...rest }) => {
+  a: ({ node: _node, href, children, ...rest }) => {
     const safeHref = href ?? '#'
     const isStartLink = 'data-start-link' in rest
     const isExternal = !(safeHref.startsWith('/') || safeHref.startsWith('#'))
@@ -87,7 +90,7 @@ export const markdownComponents: Components = {
       </Link>
     )
   },
-  blockquote: (props) => (
+  blockquote: ({ node: _node, ...props }) => (
     <blockquote
       className="ml-[0.075em] border-gray-300 border-l-3 pl-4 text-gray-700"
       {...props}
@@ -188,6 +191,10 @@ export function MarkdownContent({
           <Heading as="h1" className="break-anywhere">
             {frontmatter.title}
           </Heading>
+
+          {frontmatter.source_url ? (
+            <MigrationBanner pageURL={frontmatter.source_url} />
+          ) : null}
 
           {frontmatter.publish_date ? (
             <div className="border-blue-10 border-b-4 pb-4 text-mid-grey-00">

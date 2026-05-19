@@ -4,6 +4,7 @@ description: "Tell the Barbados Post Office that someone has died and arrange fo
 publish_date: 2026-01-30
 stage: alpha
 section: "Travel, ID and citizenship"
+category: travel-id-citizenship
 ---
 
 You can use this service to tell the Post Office that someone has died and therefore you would like to redirect their mail to a different address.

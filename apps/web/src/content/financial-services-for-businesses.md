@@ -4,6 +4,7 @@ description: "The Financial Services Commission supervises and regulates non-ban
 source_url: https://www.gov.bb/State-Bodies/financial-services-commission
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 ## Financial Services Commission

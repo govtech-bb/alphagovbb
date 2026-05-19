@@ -4,6 +4,7 @@ description: "This article explains how to apply online for a Visitor's Permit t
 source_url: https://www.gov.bb/Visit-Barbados/visitorpermitapplication
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## Apply for Visitor Permit Online

@@ -1,22 +1,17 @@
-import { Link, useRouterState } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { Logo } from '@govtech-bb/react'
 import { OfficialBanner } from './OfficialBanner'
 import { StageBanner } from './StageBanner'
 
 export default function Header() {
-  const { location } = useRouterState()
-  const isHome = location.pathname === '/'
-
   return (
     <div>
       <OfficialBanner />
-      {isHome ? (
-        <div className="bg-blue-10">
-          <div className="container">
-            <StageBanner stage="alpha" />
-          </div>
+      <div className="bg-blue-10">
+        <div className="container">
+          <StageBanner stage="alpha" />
         </div>
-      ) : null}
+      </div>
       <header className="relative bg-yellow-100">
         <div className="container">
           <div className="flex items-center gap-3 py-4 lg:py-6">

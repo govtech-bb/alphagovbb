@@ -4,6 +4,7 @@ description: "Apply to become a volunteer mentor for a young person aged 13 to 1
 stage: "alpha"
 featured: false
 publish_date: 2026-01-13
+category: work-employment
 ---
 
 Anyone aged 18 and over is eligible to apply to mentor a young person between the age of 13 and 17 in the Project Protégé programme. Mentors are volunteers who are able to commit regular time to support and inspire their mentee.

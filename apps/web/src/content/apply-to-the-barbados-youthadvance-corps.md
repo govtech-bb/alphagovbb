@@ -4,6 +4,7 @@ description: "Apply to join the Barbados YouthADVANCE Corps (BYAC), a government
 stage: "alpha"
 featured: false
 publish_date: 2025-11-12
+category: work-employment
 ---
 
 Young people between the ages of 16 and 20 years old are eligible to apply to the Barbados YouthADVANCE Corps (BYAC). BYAC is an initiative aimed at helping young people develop the skills they need to enter higher education, the workplace or for their own personal growth.

@@ -4,6 +4,7 @@ description: "An overview of Barbados' corporation tax laws, including residency
 source_url: https://www.gov.bb/tax-information
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 ## Corporation Tax

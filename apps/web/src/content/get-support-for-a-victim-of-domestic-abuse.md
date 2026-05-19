@@ -4,6 +4,7 @@ description: "Find support services available in Barbados for victims of domesti
 featured: false
 stage: "alpha"
 publish_date: 2025-11-24
+category: public-safety
 ---
 
 If you or someone else is in immediate danger, call the Police on 211

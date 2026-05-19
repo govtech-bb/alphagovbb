@@ -4,6 +4,7 @@ description: "Information for applicants for U.S. immigrant visas regarding mand
 source_url: https://www.gov.bb/Visit-Barbados/medical-requirements
 publish_date: 2025-10-30
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## Medical Examinations

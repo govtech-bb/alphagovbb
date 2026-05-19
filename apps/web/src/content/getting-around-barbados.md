@@ -4,6 +4,7 @@ description: "Information for visitors and temporary residents on obtaining a dr
 source_url: https://www.gov.bb/Visit-Barbados/getting-around-barbados
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## Obtaining a Drivers Permit - Visitors and Temporary Residents

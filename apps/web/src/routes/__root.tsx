@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
-import { Footer } from '@govtech-bb/react'
+import { Footer, textVariants } from '@govtech-bb/react'
 import Header from '../components/Header'
 
 const FOOTER_LINKS = [
@@ -50,9 +50,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="font-sans antialiased text-black-00 bg-white-00">
+      <body
+        className={`${textVariants({ size: 'body' })} grid min-h-screen grid-rows-[auto_1fr_auto] font-sans antialiased text-black-00 bg-white-00`}
+      >
         <Header />
-        {children}
+        <main id="main">{children}</main>
         <Footer
           links={FOOTER_LINKS}
           logoSrc="/images/coat-of-arms.png"

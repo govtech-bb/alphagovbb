@@ -3,6 +3,7 @@ title: "Apply for a conductor's licence"
 description: "Apply for a conductor's licence to work on a Public Service Vehicle (PSV) in Barbados. You must be 18 years or older to apply."
 stage: "alpha"
 publish_date: 2026-03-06
+category: work-employment
 ---
 
 If you are 18 years old or older, you can use this service to apply for a licence to become a conductor on a Public Service Vehicle (PSV).

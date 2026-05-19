@@ -4,6 +4,7 @@ description: "An overview of the Government of Barbados' EZpay+ payments platfor
 source_url: https://www.gov.bb/Citizens/ezpay
 publish_date: 2025-10-24
 section: "Work and Employment"
+category: money-financial-support
 ---
 
 ## What is the EZpay+ Payments Platform?

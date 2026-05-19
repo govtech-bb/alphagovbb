@@ -4,6 +4,7 @@ description: "Apply to volunteer at a government-run sports camp in Barbados for
 stage: "alpha"
 featured: false
 publish_date: 2025-11-13
+category: work-employment
 ---
 
 Adults and young people aged 19 and over are eligible to apply to volunteer at a sports camp. Sports camps take place over the summer, but you can apply all year round. Recruitment usually begins around April.

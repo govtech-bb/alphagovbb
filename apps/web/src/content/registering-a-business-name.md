@@ -4,6 +4,7 @@ description: "An overview of the simple requirements and procedures for register
 source_url: https://www.gov.bb/Business/registering-business-name
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 ## Registering a Business Name

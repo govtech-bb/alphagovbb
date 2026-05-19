@@ -4,6 +4,7 @@ description: "An overview of the Ministry of Labour's role in Barbados, focusing
 source_url: https://www.gov.bb/Business/policies-laws
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 ## Labour Laws and Regulations

@@ -3,6 +3,7 @@ title: "Request a Presidential Visit for a Centenarian"
 description: "Ask the President to visit a Barbadian who is turning 100 years old."
 stage: "alpha"
 publish_date: 2026-05-14
+category: family-birth-relationships
 ---
 
 Use this service to ask the President, Lieutenant Colonel Jeffrey Bostic, to visit a Barbadian who is turning 100 years old.

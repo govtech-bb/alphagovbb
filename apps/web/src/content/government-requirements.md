@@ -4,6 +4,7 @@ description: "A guide to the process of applying for and maintaining a license f
 source_url: https://www.gov.bb/Business/government-requirements
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 A prospective applicant must submit a preliminary application to the Central Bank of Barbados for approval.

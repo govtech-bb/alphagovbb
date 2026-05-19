@@ -23,8 +23,8 @@ export const Route = createFileRoute('/$')({
     if (segments.length === 1) {
       const cat = CATEGORY_BY_SLUG[segments[0]!]
       if (cat) {
-        const items = PAGES.filter(
-          (p) => p.frontmatter.category === cat.slug,
+        const items = PAGES.filter((p) =>
+          p.frontmatter.categories.includes(cat.slug),
         ).map((p) => ({
           title: p.frontmatter.title,
           description: p.frontmatter.description,

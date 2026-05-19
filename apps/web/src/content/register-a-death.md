@@ -4,6 +4,7 @@ description: "This article provides information on how to apply for and obtain a
 source_url: https://www.gov.bb/Citizens/register-death
 publish_date: 2025-12-12
 section: "Family, Birth and Relationships"
+category: family-birth-relationships
 ---
 
 Applications for death certificates are made at the Registration Department, New Supreme Court Complex White Park Road, St. Michael.

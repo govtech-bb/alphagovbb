@@ -4,6 +4,7 @@ description: "Information on the various ports of entry into Barbados, including
 source_url: https://www.gov.bb/Visit-Barbados/ports-of-entry
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## The Bridgetown Port

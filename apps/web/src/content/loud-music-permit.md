@@ -4,6 +4,7 @@ description: "Apply for a permit to play loud music at an event in Barbados. A p
 stage: "alpha"
 featured: true
 publish_date: 2025-10-24
+category: business-trade
 ---
 
 If you are organising an event, you may also need to apply for one or more of the following: 

@@ -4,6 +4,7 @@ description: "Find out which permits you need to run a Crop Over event, which ag
 stage: "alpha"
 featured: false
 publish_date: 2026-05-13
+category: business-trade
 ---
 
 Find out which permits you need, which agencies to contact, and in what order.

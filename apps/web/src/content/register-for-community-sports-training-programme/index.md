@@ -4,6 +4,7 @@ description: "Register for a government-run Youth Development Programme (YDP) co
 stage: "alpha"
 featured: false
 publish_date: 2026-02-06
+category: work-employment
 ---
 
 Anyone living in Barbados, aged 30 and under, can register for a place on government-run community sports programmes.

@@ -4,6 +4,7 @@ description: "This article outlines the requirements, procedures, and fees for o
 source_url: https://www.gov.bb/Citizens/marriage-licence
 publish_date: 2025-10-24
 section: "Family, Birth and Relationships"
+category: family-birth-relationships
 ---
 
 ## Getting Married in Barbados

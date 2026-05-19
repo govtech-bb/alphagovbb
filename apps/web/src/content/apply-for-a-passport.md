@@ -4,6 +4,7 @@ description: "This article provides detailed instructions for citizens of Barbad
 source_url: https://www.gov.bb/Citizens/apply-passport
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## How to Apply for a Passport

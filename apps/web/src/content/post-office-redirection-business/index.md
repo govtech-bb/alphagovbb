@@ -4,6 +4,7 @@ description: "Tell the Barbados Post Office to redirect your business mail to a 
 publish_date: 2026-01-30
 stage: alpha
 section: "Travel, ID and citizenship"
+category: travel-id-citizenship
 ---
 
 You should use this service to tell the Post Office that you would like to change the address that your business mail gets delivered to.

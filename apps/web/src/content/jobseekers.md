@@ -4,6 +4,7 @@ description: "Learn about various employment opportunities in Barbados, includin
 source_url: https://www.gov.bb/Citizens/job-seekers
 publish_date: 2025-10-24
 section: "Work and Employment"
+category: work-employment
 ---
 
 ## Overseas Employment Opportunities

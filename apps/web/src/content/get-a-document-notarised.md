@@ -4,6 +4,7 @@ description: "Find out how to get a document notarised in Barbados, including wh
 stage: "alpha"
 featured: true
 publish_date: 2025-11-12
+category: travel-id-citizenship
 ---
 
 When an individual or a business wants to do something like transfer land ownership, or enter into a commercial contract, they may be asked to provide copies of official documents. These copies need to be notarised as true copies of the original by the notary (a qualified legal professional).

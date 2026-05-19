@@ -39,16 +39,27 @@ export const PAGES: Array<ContentPage> = Object.entries(modules).map(
       )
     }
     const raw = parsed.data
-    if (raw.category && !CATEGORY_BY_SLUG[raw.category]) {
-      throw new Error(
-        `Page "${slug}" references unknown category "${raw.category}". Add it to src/content/categories.ts.`,
-      )
+    const categories = Array.from(
+      new Set([
+        ...(raw.category ? [raw.category] : []),
+        ...(raw.categories ?? []),
+      ]),
+    )
+    for (const catSlug of categories) {
+      if (!CATEGORY_BY_SLUG[catSlug]) {
+        throw new Error(
+          `Page "${slug}" references unknown category "${catSlug}". Add it to src/content/categories.ts.`,
+        )
+      }
     }
+    const { category: _legacyCategory, categories: _legacyCategories, ...rest } = raw
     const frontmatter: Frontmatter = {
-      ...raw,
+      ...rest,
       title: raw.title ?? titleFromSlug(slug),
+      categories,
     }
-    const url = frontmatter.category ? `${frontmatter.category}/${slug}` : slug
+    /** Canonical URL: first claimed category wins; uncategorised pages live at the root. */
+    const url = categories[0] ? `${categories[0]}/${slug}` : slug
     return { slug, url, frontmatter, body: content }
   },
 )

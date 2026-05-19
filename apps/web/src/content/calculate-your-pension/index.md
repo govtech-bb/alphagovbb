@@ -4,6 +4,7 @@ description: "Estimate your public sector pension and gratuity (lump sum) based 
 stage: "alpha"
 featured: false
 publish_date: 2026-05-13
+category: pensions-and-gratuities
 ---
 
 Use this tool to estimate your public sector pension. You can choose between a full pension or a reduced pension.

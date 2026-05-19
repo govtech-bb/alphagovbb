@@ -4,6 +4,7 @@ description: "Barbados is a highly-ranked Caribbean travel destination known for
 source_url: https://www.gov.bb/Visit-Barbados/local-information
 publish_date: 2025-10-24
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 Barbados is an island of natural wonder to many individuals of the world. No Surprise its rank as one of the top Caribbean travel destination for the rich and famous, in addition to those who are seeking rest and relaxation or party vibes in a tropical wonderland. Barbados really is the island that has it all, and as a result, receives a great deal of press coverage.

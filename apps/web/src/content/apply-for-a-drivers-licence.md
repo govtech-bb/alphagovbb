@@ -4,6 +4,7 @@ description: "This article provides information on how to obtain a driver's lice
 source_url: https://www.gov.bb/Citizens/driver-licence
 publish_date: 2025-10-30
 section: "Travel, ID and Citizenship"
+category: travel-id-citizenship
 ---
 
 ## What is a Driving Licence and Why is it Necessary?

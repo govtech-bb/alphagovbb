@@ -4,6 +4,7 @@ description: "Learn how to register a marriage in Barbados, including required d
 source_url: https://www.gov.bb/Citizens/register-marriage
 publish_date: 2025-10-24
 section: "Family, Birth and Relationships"
+category: family-birth-relationships
 ---
 
 ## Registration for a Marriage Certificate

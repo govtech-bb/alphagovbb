@@ -4,6 +4,7 @@ description: "Apply for a place at a government-run day nursery in Barbados for 
 stage: "alpha"
 featured: false
 publish_date: 2025-11-12
+category: family-birth-relationships
 ---
 
 Parents and guardians of children under the age of 5 can apply for them to go to a government-run day nursery. Nursery places are decided on a case-by-case basis. It is a good idea to apply for at least 3 nurseries.

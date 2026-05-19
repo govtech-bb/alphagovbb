@@ -4,6 +4,7 @@ description: "Apply for financial assistance from the Government of Barbados if 
 stage: "alpha"
 featured: false
 publish_date: 2025-11-12
+category: money-financial-support
 ---
 
 If you live in Barbados and need financial help you can apply for financial assistance.

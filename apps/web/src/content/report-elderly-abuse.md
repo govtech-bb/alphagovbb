@@ -4,6 +4,7 @@ description: "Find out how to report suspected abuse, neglect, or exploitation o
 stage: "alpha"
 featured: false
 publish_date: 2025-11-12
+category: public-safety
 ---
 
 If you are concerned about the welfare of an elderly person, you should use this service to report it to the authorities so they can investigate and intervene.

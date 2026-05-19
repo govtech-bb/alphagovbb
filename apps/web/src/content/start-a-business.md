@@ -4,6 +4,7 @@ description: "Learn how Invest Barbados facilitates starting or expanding busine
 source_url: https://www.gov.bb/Business/start-business
 publish_date: 2025-10-24
 section: "Business and Trade"
+category: business-trade
 ---
 
 ## Starting a Business
