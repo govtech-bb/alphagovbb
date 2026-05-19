@@ -2,7 +2,9 @@ import { createFileRoute, notFound } from '@tanstack/react-router'
 import { Heading, Text, linkVariants } from '@govtech-bb/react'
 import { Breadcrumbs } from '../components/Breadcrumbs'
 import { HelpfulBox } from '../components/HelpfulBox'
-import { MarkdownContent } from '../components/MarkdownContent'
+import { MarkdownBody, MarkdownContent } from '../components/MarkdownContent'
+import { MinistryPage } from '../components/MinistryPage'
+import { resolveOrgPath, resolveOrgProps } from '../content/orgs'
 import { findPage, PAGES, type ContentPage } from '../content/registry'
 import { CATEGORY_BY_SLUG, type Category } from '../content/categories'
 
@@ -68,6 +70,15 @@ function ContentRoute() {
 }
 
 function PageView({ page }: { page: ContentPage }) {
+  const org = resolveOrgPath(page.slug)
+  if (org) {
+    const props = resolveOrgProps(org.kind, org.orgSlug, {
+      title: page.frontmatter.title,
+      originalSource: page.frontmatter.source_url,
+    })
+    return <MinistryPage {...props} body={<MarkdownBody body={page.body} />} />
+  }
+
   return (
     <Shell>
       <MarkdownContent body={page.body} frontmatter={page.frontmatter} />

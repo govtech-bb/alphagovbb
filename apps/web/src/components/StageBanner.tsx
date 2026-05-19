@@ -10,7 +10,7 @@ const COPY: Record<Stage, { prefix: string; linkText: string }> = {
   alpha: { prefix: 'This page is in ', linkText: 'Alpha' },
   beta: { prefix: 'This page is in ', linkText: 'Beta' },
   migrated: {
-    prefix: 'This content has been migrated from ',
+    prefix: 'This page has been migrated from ',
     linkText: 'gov.bb',
   },
 }

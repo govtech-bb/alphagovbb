@@ -173,6 +173,28 @@ export const markdownComponents: Components = {
   },
 }
 
+export function MarkdownBody({
+  body,
+  hasResearchAccess = false,
+}: {
+  body: string
+  hasResearchAccess?: boolean
+}) {
+  return (
+    <ReactMarkdown
+      components={markdownComponents}
+      rehypePlugins={[
+        rehypeRaw,
+        [rehypeHideStartLinks, { hasResearchAccess }],
+        rehypeSectionise,
+      ]}
+      remarkPlugins={[remarkGfm]}
+    >
+      {body}
+    </ReactMarkdown>
+  )
+}
+
 export type MarkdownContentProps = {
   frontmatter: Frontmatter
   body: string
@@ -204,17 +226,7 @@ export function MarkdownContent({
             </div>
           ) : null}
         </div>
-        <ReactMarkdown
-          components={markdownComponents}
-          rehypePlugins={[
-            rehypeRaw,
-            [rehypeHideStartLinks, { hasResearchAccess }],
-            rehypeSectionise,
-          ]}
-          remarkPlugins={[remarkGfm]}
-        >
-          {body}
-        </ReactMarkdown>
+        <MarkdownBody body={body} hasResearchAccess={hasResearchAccess} />
       </div>
     </div>
   )
