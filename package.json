@@ -10,14 +10,18 @@
     "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
-    "turbo": "^2.3.0",
-    "typescript": "^5.7.2",
-    "prettier": "^3.4.0"
+    "prettier": "^3.8.3",
+    "turbo": "^2.9.14",
+    "typescript": "^6.0.3"
   },
   "engines": {
     "node": ">=20"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["esbuild", "lightningcss", "sharp"]
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lightningcss",
+      "sharp"
+    ]
   }
 }

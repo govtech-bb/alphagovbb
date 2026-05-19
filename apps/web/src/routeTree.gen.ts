@@ -17,6 +17,9 @@ import { Route as JavascriptRequiredRouteImport } from './routes/javascript-requ
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GovernmentOrganisationsRouteImport } from './routes/government.organisations'
+import { Route as GovernmentOrganisationsIndexRouteImport } from './routes/government.organisations.index'
+import { Route as GovernmentOrganisationsSlugRouteImport } from './routes/government.organisations.$slug'
 
 const TellUsRoute = TellUsRouteImport.update({
   id: '/tell-us',
@@ -58,6 +61,23 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GovernmentOrganisationsRoute = GovernmentOrganisationsRouteImport.update({
+  id: '/government/organisations',
+  path: '/government/organisations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GovernmentOrganisationsIndexRoute =
+  GovernmentOrganisationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => GovernmentOrganisationsRoute,
+  } as any)
+const GovernmentOrganisationsSlugRoute =
+  GovernmentOrganisationsSlugRouteImport.update({
+    id: '/$slug',
+    path: '/$slug',
+    getParentRoute: () => GovernmentOrganisationsRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -68,6 +88,9 @@ export interface FileRoutesByFullPath {
   '/service-unavailable': typeof ServiceUnavailableRoute
   '/services': typeof ServicesRoute
   '/tell-us': typeof TellUsRoute
+  '/government/organisations': typeof GovernmentOrganisationsRouteWithChildren
+  '/government/organisations/$slug': typeof GovernmentOrganisationsSlugRoute
+  '/government/organisations/': typeof GovernmentOrganisationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -78,6 +101,8 @@ export interface FileRoutesByTo {
   '/service-unavailable': typeof ServiceUnavailableRoute
   '/services': typeof ServicesRoute
   '/tell-us': typeof TellUsRoute
+  '/government/organisations/$slug': typeof GovernmentOrganisationsSlugRoute
+  '/government/organisations': typeof GovernmentOrganisationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -89,6 +114,9 @@ export interface FileRoutesById {
   '/service-unavailable': typeof ServiceUnavailableRoute
   '/services': typeof ServicesRoute
   '/tell-us': typeof TellUsRoute
+  '/government/organisations': typeof GovernmentOrganisationsRouteWithChildren
+  '/government/organisations/$slug': typeof GovernmentOrganisationsSlugRoute
+  '/government/organisations/': typeof GovernmentOrganisationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -101,6 +129,9 @@ export interface FileRouteTypes {
     | '/service-unavailable'
     | '/services'
     | '/tell-us'
+    | '/government/organisations'
+    | '/government/organisations/$slug'
+    | '/government/organisations/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,6 +142,8 @@ export interface FileRouteTypes {
     | '/service-unavailable'
     | '/services'
     | '/tell-us'
+    | '/government/organisations/$slug'
+    | '/government/organisations'
   id:
     | '__root__'
     | '/'
@@ -121,6 +154,9 @@ export interface FileRouteTypes {
     | '/service-unavailable'
     | '/services'
     | '/tell-us'
+    | '/government/organisations'
+    | '/government/organisations/$slug'
+    | '/government/organisations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -132,6 +168,7 @@ export interface RootRouteChildren {
   ServiceUnavailableRoute: typeof ServiceUnavailableRoute
   ServicesRoute: typeof ServicesRoute
   TellUsRoute: typeof TellUsRoute
+  GovernmentOrganisationsRoute: typeof GovernmentOrganisationsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -192,8 +229,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/government/organisations': {
+      id: '/government/organisations'
+      path: '/government/organisations'
+      fullPath: '/government/organisations'
+      preLoaderRoute: typeof GovernmentOrganisationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/government/organisations/': {
+      id: '/government/organisations/'
+      path: '/'
+      fullPath: '/government/organisations/'
+      preLoaderRoute: typeof GovernmentOrganisationsIndexRouteImport
+      parentRoute: typeof GovernmentOrganisationsRoute
+    }
+    '/government/organisations/$slug': {
+      id: '/government/organisations/$slug'
+      path: '/$slug'
+      fullPath: '/government/organisations/$slug'
+      preLoaderRoute: typeof GovernmentOrganisationsSlugRouteImport
+      parentRoute: typeof GovernmentOrganisationsRoute
+    }
   }
 }
+
+interface GovernmentOrganisationsRouteChildren {
+  GovernmentOrganisationsSlugRoute: typeof GovernmentOrganisationsSlugRoute
+  GovernmentOrganisationsIndexRoute: typeof GovernmentOrganisationsIndexRoute
+}
+
+const GovernmentOrganisationsRouteChildren: GovernmentOrganisationsRouteChildren =
+  {
+    GovernmentOrganisationsSlugRoute: GovernmentOrganisationsSlugRoute,
+    GovernmentOrganisationsIndexRoute: GovernmentOrganisationsIndexRoute,
+  }
+
+const GovernmentOrganisationsRouteWithChildren =
+  GovernmentOrganisationsRoute._addFileChildren(
+    GovernmentOrganisationsRouteChildren,
+  )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -204,6 +278,7 @@ const rootRouteChildren: RootRouteChildren = {
   ServiceUnavailableRoute: ServiceUnavailableRoute,
   ServicesRoute: ServicesRoute,
   TellUsRoute: TellUsRoute,
+  GovernmentOrganisationsRoute: GovernmentOrganisationsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

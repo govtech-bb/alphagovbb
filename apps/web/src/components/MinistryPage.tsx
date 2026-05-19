@@ -2,6 +2,7 @@ import { Heading, Link, Text } from '@govtech-bb/react'
 import type { ReactNode } from 'react'
 import { Breadcrumbs } from './Breadcrumbs'
 import { StageBanner } from './StageBanner'
+import { orgHrefByName } from '../content/orgs'
 import type {
   AssociatedDepartmentGroup,
   ContactItem,
@@ -237,11 +238,21 @@ export function MinistryPage({
                         </p>
                       ) : null}
                       <ul className="flex flex-col gap-xxs">
-                        {group.items.map((dept) => (
-                          <li className="text-[16px] text-black-00" key={dept}>
-                            {dept}
-                          </li>
-                        ))}
+                        {group.items.map((dept) => {
+                          const href = orgHrefByName(dept)
+                          return (
+                            <li
+                              className="text-[16px] text-black-00"
+                              key={dept}
+                            >
+                              {href ? (
+                                <Link href={href}>{dept}</Link>
+                              ) : (
+                                dept
+                              )}
+                            </li>
+                          )
+                        })}
                       </ul>
                     </div>
                   ))}
