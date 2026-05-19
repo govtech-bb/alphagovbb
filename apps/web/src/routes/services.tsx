@@ -18,20 +18,19 @@ export const Route = createFileRoute('/services')({
 })
 
 function ServicesPage() {
-  const items = PAGES.filter((p) => p.frontmatter.stage === 'alpha')
+  const startSlugs = new Set(
+    PAGES.filter((p) => p.slug.endsWith('/start')).map((p) => p.slug),
+  )
+  const items = PAGES.filter(
+    (p) => p.frontmatter.stage === 'alpha' && !p.slug.endsWith('/start'),
+  )
     .map((p) => ({
       title: p.frontmatter.title,
       href: `/${p.url}`,
       slug: p.url,
-      isDigital: p.frontmatter.service_type === 'digital',
+      isEntry: startSlugs.has(`${p.slug}/start`),
     }))
     .sort((a, b) => a.title.localeCompare(b.title))
-
-  const handleSearch = (q: string) => {
-    window.location.href = q
-      ? `/search-results?q=${encodeURIComponent(q)}`
-      : '/services'
-  }
 
   return (
     <>
@@ -42,9 +41,10 @@ function ServicesPage() {
               Search for a service
             </Text>
             <Search
+              action="/search-results"
+              name="q"
               label="Search for a service"
               buttonLabel="Search"
-              onSearch={handleSearch}
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ function ServicesPage() {
                     {item.title}
                   </Link>
                   <Text as="p" className="text-mid-grey-00">
-                    {item.isDigital ? 'Digital service' : 'Information service'}
+                    {item.isEntry ? 'Digital service' : 'Information service'}
                   </Text>
                 </li>
               ))}
