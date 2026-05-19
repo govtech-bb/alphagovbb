@@ -1,6 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
-import { SITE_URL } from './site-url'
 
 const FeedbackSchema = z
   .object({
@@ -48,8 +47,9 @@ export const sendFeedback = createServerFn({ method: 'POST' })
     const tagValue = process.env.SES_TAG_VALUE ?? 'prod'
 
     const { visitReason, whatWentWrong, referrer } = parsed.data
+    const siteUrl = process.env.SITE_URL ?? 'https://alpha.gov.bb'
     const referrerUrl = referrer
-      ? new URL(referrer, SITE_URL).toString()
+      ? new URL(referrer, siteUrl).toString()
       : null
     const html = [
       referrerUrl &&

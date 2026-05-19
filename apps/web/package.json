@@ -6,22 +6,21 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "dotenv -e .env.local -- sh -c \"NODE_OPTIONS='--import ./instrument.server.mjs' vite dev --port 3000\"",
-    "build": "vite build && cp instrument.server.mjs dist/server/",
+    "dev": "dotenv -e .env.local -- vite dev --port 3000",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "format": "prettier --write . && eslint --fix",
     "check": "prettier --check .",
-    "start": "node --import ./dist/server/instrument.server.mjs dist/server/server.js"
+    "start": "node --import dist/server/server.js"
   },
   "dependencies": {
     "@aws-sdk/client-sesv2": "^3.1050.0",
     "@fontsource/figtree": "^5.0.0",
     "@govtech-bb/design": "^1.0.0-alpha.14",
     "@govtech-bb/react": "^1.0.0-alpha.14",
-    "@sentry/tanstackstart-react": "^10.42.0",
     "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-devtools": "latest",
     "@tanstack/react-query": "latest",

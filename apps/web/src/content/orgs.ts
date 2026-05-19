@@ -2,6 +2,7 @@ import type { MdaEntry } from '../lib/mda-types'
 import type { MinistryPageProps } from '../components/MinistryPage'
 import { MINISTRIES, type Ministry } from './ministries'
 import { DEPARTMENTS } from './departments'
+import { findPage, type ContentPage } from './registry'
 import { STATE_BODIES } from './state-bodies'
 
 export type OrgKind = 'ministry' | 'department' | 'state-body'
@@ -18,6 +19,48 @@ export const ORG_PREFIXES: ReadonlyArray<readonly [string, OrgKind]> = [
 
 export const orgHref = (slug: string): string =>
   `/government/organisations/${slug}`
+
+/**
+ * Precomputed leaf-slug → org lookup. Built once at module load by iterating
+ * ORG_PREFIXES in order — ministry wins on the (currently empty) collision
+ * case. `page` is undefined when the structured entry has no matching
+ * markdown file; the detail route still renders the structured data.
+ */
+export const ORG_PAGE_BY_SLUG: ReadonlyMap<
+  string,
+  { kind: OrgKind; page?: ContentPage }
+> = (() => {
+  const map = new Map<string, { kind: OrgKind; page?: ContentPage }>()
+  for (const [prefix, kind] of ORG_PREFIXES) {
+    const list =
+      kind === 'ministry'
+        ? MINISTRIES
+        : kind === 'department'
+          ? DEPARTMENTS
+          : STATE_BODIES
+    for (const entry of list) {
+      if (map.has(entry.slug)) continue
+      const page = findPage(`${prefix}${entry.slug}`)
+      map.set(entry.slug, { kind, page })
+    }
+  }
+  return map
+})()
+
+// Build-time validation: every `slug` inside MINISTRIES.associatedDepartments
+// must reference a real org page. Fails fast at import to catch typos before
+// they ship as 404 links.
+for (const ministry of MINISTRIES) {
+  for (const group of ministry.associatedDepartments ?? []) {
+    for (const item of group.items) {
+      if (item.slug && !ORG_PAGE_BY_SLUG.has(item.slug)) {
+        throw new Error(
+          `Associated org slug "${item.slug}" on ministry "${ministry.slug}" (item "${item.name}") does not resolve to a known org page.`,
+        )
+      }
+    }
+  }
+}
 
 /** Strips a leading slash so callers can pass either a slug or a pathname. */
 export function resolveOrgPath(
