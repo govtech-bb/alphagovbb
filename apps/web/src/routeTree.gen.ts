@@ -9,13 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ServiceUnavailableRouteImport } from './routes/service-unavailable'
 import { Route as SearchResultsRouteImport } from './routes/search-results'
+import { Route as JavascriptRequiredRouteImport } from './routes/javascript-required'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ServiceUnavailableRoute = ServiceUnavailableRouteImport.update({
+  id: '/service-unavailable',
+  path: '/service-unavailable',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SearchResultsRoute = SearchResultsRouteImport.update({
   id: '/search-results',
   path: '/search-results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JavascriptRequiredRoute = JavascriptRequiredRouteImport.update({
+  id: '/javascript-required',
+  path: '/javascript-required',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -32,40 +44,78 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
+  '/service-unavailable': typeof ServiceUnavailableRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
+  '/service-unavailable': typeof ServiceUnavailableRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/javascript-required': typeof JavascriptRequiredRoute
   '/search-results': typeof SearchResultsRoute
+  '/service-unavailable': typeof ServiceUnavailableRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/search-results'
+  fullPaths:
+    | '/'
+    | '/$'
+    | '/javascript-required'
+    | '/search-results'
+    | '/service-unavailable'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/search-results'
-  id: '__root__' | '/' | '/$' | '/search-results'
+  to:
+    | '/'
+    | '/$'
+    | '/javascript-required'
+    | '/search-results'
+    | '/service-unavailable'
+  id:
+    | '__root__'
+    | '/'
+    | '/$'
+    | '/javascript-required'
+    | '/search-results'
+    | '/service-unavailable'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
+  JavascriptRequiredRoute: typeof JavascriptRequiredRoute
   SearchResultsRoute: typeof SearchResultsRoute
+  ServiceUnavailableRoute: typeof ServiceUnavailableRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/service-unavailable': {
+      id: '/service-unavailable'
+      path: '/service-unavailable'
+      fullPath: '/service-unavailable'
+      preLoaderRoute: typeof ServiceUnavailableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/search-results': {
       id: '/search-results'
       path: '/search-results'
       fullPath: '/search-results'
       preLoaderRoute: typeof SearchResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/javascript-required': {
+      id: '/javascript-required'
+      path: '/javascript-required'
+      fullPath: '/javascript-required'
+      preLoaderRoute: typeof JavascriptRequiredRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -88,7 +138,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
+  JavascriptRequiredRoute: JavascriptRequiredRoute,
   SearchResultsRoute: SearchResultsRoute,
+  ServiceUnavailableRoute: ServiceUnavailableRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
