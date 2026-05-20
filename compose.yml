@@ -32,12 +32,11 @@ services:
       target: deps
     user: *host-user
     # vite --host 0.0.0.0 so the dev server is reachable from outside the
-    # container. NODE_OPTIONS preserves the Sentry instrument import that the
-    # host-side `pnpm dev` script sets via dotenv-cli.
+    # container.
     command:
       - sh
       - -c
-      - cd apps/web && NODE_OPTIONS='--import ./instrument.server.mjs' pnpm exec vite dev --port 3000 --host 0.0.0.0
+      - cd apps/web && pnpm exec vite dev --port 3000 --host 0.0.0.0
     ports:
       - "3000:3000"
     env_file:
