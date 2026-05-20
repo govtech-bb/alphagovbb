@@ -1,0 +1,20 @@
+.git
+.gitignore
+
+**/node_modules
+**/.output
+**/.turbo
+**/.tanstack
+**/dist
+**/coverage
+
+.env
+.env.*
+!.env.example
+
+.DS_Store
+*.log
+
+# Local-only test artefacts
+**/playwright-report
+**/test-results

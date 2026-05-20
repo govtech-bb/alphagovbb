@@ -1,3 +1,15 @@
 package-lock.json
 pnpm-lock.yaml
 yarn.lock
+
+# Build / test artefacts produced inside apps/web by `./verify.sh`.
+dist
+.output
+coverage
+playwright-report
+test-results
+
+# Scaffold-managed file (create-tsrouter-app). Not hand-edited; rerunning
+# the scaffold regenerates it in a non-prettier-conformant shape, so we
+# accept the format and don't fight it.
+.cta.json
