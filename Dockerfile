@@ -29,28 +29,27 @@ USER 1000
 EXPOSE 3000
 
 # Production build. Source is COPYed in (not bind-mounted) so the resulting
-# .output is reproducible from the image alone.
+# dist/ is reproducible from the image alone. --chown=1000:1000 because the
+# deps stage runs as UID 1000; without it `vite build` can't create dist/
+# under the freshly-copied apps/web/ (which would otherwise be root-owned).
 FROM deps AS build
-COPY . .
+COPY --chown=1000:1000 . .
 RUN --mount=type=cache,id=alphagovbb-pnpm-store,target=/pnpm-store \
     pnpm --filter web build
 
-# Production-like runtime used by the `app` service for e2e tests. Mirrors what
-# Amplify serves: just the .output bundle and Node.
-FROM node:20-slim AS runtime
-WORKDIR /app
+# Production-like runtime used by the `app` service for e2e tests. The
+# TanStack Start build emits a Web-standard { fetch } handler (dist/server/
+# server.js) rather than a self-listening HTTP server, so we serve it via
+# `vite preview` — Vite's preview-server-plugin wraps the bundle with
+# srvx/node and exposes it over HTTP. That requires vite and the rest of
+# the workspace install, so this stage extends `build` (which already has
+# both deps and the built dist) rather than starting from a bare node image.
+FROM build AS runtime
 ENV NODE_ENV=production \
     HOST=0.0.0.0 \
     PORT=3000
-COPY --from=build --chown=node:node /app/apps/web/dist ./dist
-USER node
 EXPOSE 3000
-# Matches apps/web `pnpm start`. Note: the bundle exports a Web-standard
-# { fetch } handler rather than starting an http server, so this CMD does
-# not listen on a port without an additional adapter. The same is true of
-# `pnpm start` on the host. Resolving this is out of scope for the Docker
-# rollout — adding a node-server adapter is a separate piece of work.
-CMD ["node", "--import", "./dist/server/instrument.server.mjs", "dist/server/server.js"]
+CMD ["pnpm", "--filter", "web", "start"]
 
 # Playwright runner. Built on Microsoft's hardened browser image so we don't
 # track browser security updates ourselves. pnpm is layered on top to install
