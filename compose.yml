@@ -93,9 +93,15 @@ services:
     depends_on:
       app:
         condition: service_healthy
-    environment:
-      PLAYWRIGHT_BASE_URL: http://app:3000
-    command: ["pnpm", "--filter", "web", "exec", "playwright", "test"]
+    # Resolve `app` to its container IP before launching Playwright.
+    # Chromium auto-upgrades single-label hostnames (e.g. `app`) to HTTPS
+    # and *.localhost names are hard-mapped to 127.0.0.1 inside Chromium,
+    # so neither shape works for Playwright against a plain-HTTP service
+    # on a docker network. IP-based URLs are exempt from the upgrade.
+    command:
+      - sh
+      - -c
+      - 'export PLAYWRIGHT_BASE_URL="http://$$(getent hosts app | awk "{print \$$1}"):3000"; echo "Using $$PLAYWRIGHT_BASE_URL"; exec pnpm --filter web exec playwright test'
     volumes:
       - .:/app
       - node_modules_e2e_root:/app/node_modules
