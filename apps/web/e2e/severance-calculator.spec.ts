@@ -1,9 +1,11 @@
 import { expect, test } from '@playwright/test'
 
-// The interactive calculator form does not exist in the repo yet. This spec
-// covers the navigation that does exist today: landing page → "Start your
-// estimate now" → the /start page. Extend this once the form ships.
-test('severance calculator: landing page → start page', async ({ page }) => {
+// The interactive calculator form does not exist in the repo yet, and the
+// "Start your estimate now" anchor on the landing page is hidden by the
+// rehype-hide-start-links plugin (until a research-access flag is granted).
+// This spec just verifies the landing page renders. Extend once the form
+// or the unhidden start link ships.
+test('severance calculator landing page renders', async ({ page }) => {
   await page.goto('/money-financial-support/calculate-severance-pay')
 
   await expect(
@@ -11,14 +13,5 @@ test('severance calculator: landing page → start page', async ({ page }) => {
       name: 'Find out how much severance payment you are owed',
       level: 1,
     }),
-  ).toBeVisible()
-
-  await page.getByRole('link', { name: 'Start your estimate now' }).click()
-
-  await expect(page).toHaveURL(
-    '/money-financial-support/calculate-severance-pay/start',
-  )
-  await expect(
-    page.getByRole('heading', { name: 'How long does it take?' }),
   ).toBeVisible()
 })
