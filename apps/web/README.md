@@ -193,6 +193,19 @@ function PeopleComponent() {
 
 Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
 
+## Draft pages (preview mode)
+
+Pages in `src/content/**/*.md` can be hidden from the public by adding `draft: true` to their frontmatter. Drafts:
+
+- 404 on direct URL access
+- are excluded from category listings, `/services`, and search
+
+Reviewers see drafts by visiting `/preview?token=<PREVIEW_SECRET>` once — this sets a signed `gov_preview` cookie (30 days). To leave preview mode, visit `/preview?exit=1`.
+
+`PREVIEW_SECRET` must be set in the environment. Generate one with `openssl rand -hex 32`. If unset, preview mode is unreachable and all draft pages stay hidden.
+
+> Drafts are still shipped in the client JS bundle (filtered at render time), so this is suitable for work-in-progress public-information pages, not embargoed or sensitive content.
+
 # Demo files
 
 Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.

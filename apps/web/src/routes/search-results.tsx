@@ -9,6 +9,12 @@ const SearchParams = z.object({
 
 export const Route = createFileRoute('/search-results')({
   validateSearch: SearchParams,
+  loaderDeps: ({ search }) => ({ q: search.q }),
+  loader: async ({ deps }) => {
+    const query = deps.q.trim()
+    const hits = query ? await search({ data: { q: query } }) : []
+    return { query, hits }
+  },
   head: () => ({
     meta: [{ title: 'Search Results | Government of Barbados' }],
   }),
@@ -21,9 +27,7 @@ function labelFor(hit: SearchHit): string {
 }
 
 function SearchResultsPage() {
-  const { q } = Route.useSearch()
-  const query = q.trim()
-  const hits = query ? search(query) : []
+  const { query, hits } = Route.useLoaderData()
   const hasResults = query && hits.length > 0
   const hasNoResults = query && hits.length === 0
 

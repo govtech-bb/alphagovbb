@@ -5,8 +5,10 @@ import { HelpfulBox } from '../components/HelpfulBox'
 import { MarkdownBody, MarkdownContent } from '../components/MarkdownContent'
 import { MinistryPage } from '../components/MinistryPage'
 import { resolveOrgPath, resolveOrgProps } from '../content/orgs'
-import { findPage, PAGES, type ContentPage } from '../content/registry'
+import { PAGES, type ContentPage } from '../content/registry'
 import { CATEGORY_BY_SLUG, type Category } from '../content/categories'
+import { getIsPreview } from '../lib/preview'
+import { filterVisiblePages, findVisiblePage } from '../lib/visible-pages'
 
 interface CategoryListItem {
   title: string
@@ -19,25 +21,27 @@ type LoaderData =
   | { kind: 'category'; category: Category; items: CategoryListItem[] }
 
 export const Route = createFileRoute('/$')({
-  loader: ({ params }): LoaderData => {
+  loader: async ({ params }): Promise<LoaderData> => {
     const splat = (params._splat ?? '').replace(/^\/+|\/+$/g, '')
     const segments = splat.split('/').filter(Boolean)
+    const isPreview = await getIsPreview()
+    const visible = filterVisiblePages(PAGES, isPreview)
 
     if (segments.length === 1) {
       const cat = CATEGORY_BY_SLUG[segments[0]!]
       if (cat) {
-        const items = PAGES.filter((p) =>
-          p.frontmatter.categories.includes(cat.slug),
-        ).map((p) => ({
-          title: p.frontmatter.title,
-          description: p.frontmatter.description,
-          href: `/${p.url}`,
-        }))
+        const items = visible
+          .filter((p) => p.frontmatter.categories.includes(cat.slug))
+          .map((p) => ({
+            title: p.frontmatter.title,
+            description: p.frontmatter.description,
+            href: `/${p.url}`,
+          }))
         return { kind: 'category', category: cat, items }
       }
     }
 
-    const page = findPage(splat)
+    const page = findVisiblePage(PAGES, splat, isPreview)
     if (page) return { kind: 'page', page }
     throw notFound()
   },

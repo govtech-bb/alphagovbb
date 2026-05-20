@@ -2,8 +2,35 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Heading, Link, Search, Text } from '@govtech-bb/react'
 import { HelpfulBox } from '../components/HelpfulBox'
 import { PAGES } from '../content/registry'
+import { getIsPreview } from '../lib/preview'
+import { filterVisiblePages } from '../lib/visible-pages'
+
+interface ServiceItem {
+  title: string
+  href: string
+  slug: string
+  isEntry: boolean
+}
 
 export const Route = createFileRoute('/services')({
+  loader: async (): Promise<{ items: Array<ServiceItem> }> => {
+    const visible = filterVisiblePages(PAGES, await getIsPreview())
+    const startSlugs = new Set(
+      visible.filter((p) => p.slug.endsWith('/start')).map((p) => p.slug),
+    )
+    const items = visible
+      .filter(
+        (p) => p.frontmatter.stage === 'alpha' && !p.slug.endsWith('/start'),
+      )
+      .map((p) => ({
+        title: p.frontmatter.title,
+        href: `/${p.url}`,
+        slug: p.url,
+        isEntry: startSlugs.has(`${p.slug}/start`),
+      }))
+      .sort((a, b) => a.title.localeCompare(b.title))
+    return { items }
+  },
   head: () => ({
     meta: [
       { title: 'Alpha services | Government of Barbados' },
@@ -18,19 +45,7 @@ export const Route = createFileRoute('/services')({
 })
 
 function ServicesPage() {
-  const startSlugs = new Set(
-    PAGES.filter((p) => p.slug.endsWith('/start')).map((p) => p.slug),
-  )
-  const items = PAGES.filter(
-    (p) => p.frontmatter.stage === 'alpha' && !p.slug.endsWith('/start'),
-  )
-    .map((p) => ({
-      title: p.frontmatter.title,
-      href: `/${p.url}`,
-      slug: p.url,
-      isEntry: startSlugs.has(`${p.slug}/start`),
-    }))
-    .sort((a, b) => a.title.localeCompare(b.title))
+  const { items } = Route.useLoaderData()
 
   return (
     <>

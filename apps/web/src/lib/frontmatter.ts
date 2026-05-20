@@ -13,6 +13,8 @@ export const FrontmatterSchema = z.object({
   featured: z.boolean().optional(),
   section: z.string().optional(),
   service_type: z.enum(['digital', 'information']).optional(),
+  /** When true, the page is hidden from the public and only visible in preview mode. */
+  draft: z.boolean().optional(),
 })
 
 export type RawFrontmatter = z.infer<typeof FrontmatterSchema>

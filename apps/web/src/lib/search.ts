@@ -1,6 +1,9 @@
 import MiniSearch from 'minisearch'
+import * as Sentry from '@sentry/tanstackstart-react'
+import { createServerFn } from '@tanstack/react-start'
 import { PAGES } from '../content/registry'
 import { CATEGORY_BY_SLUG } from '../content/categories'
+import { checkPreviewCookie } from './preview'
 
 export type SearchKind = 'service' | 'ministry' | 'department' | 'state-body'
 
@@ -16,6 +19,7 @@ export interface SearchHit {
 interface IndexDoc extends SearchHit {
   body: string
   keywords: string
+  draft: boolean
 }
 
 const STOPWORDS = new Set([
@@ -125,6 +129,7 @@ function buildIndex(): {
       href: `/${page.url}`,
       category,
       kind,
+      draft: page.frontmatter.draft === true,
     }
     docs.set(doc.id, doc)
   }
@@ -132,7 +137,7 @@ function buildIndex(): {
   const ms = new MiniSearch<IndexDoc>({
     idField: 'id',
     fields: ['title', 'keywords', 'description', 'body'],
-    storeFields: ['title', 'description', 'href', 'category', 'kind'],
+    storeFields: ['title', 'description', 'href', 'category', 'kind', 'draft'],
     processTerm: (term) => {
       const lower = term.toLowerCase()
       return STOPWORDS.has(lower) ? null : lower
@@ -158,19 +163,36 @@ function getIndex() {
   return indexPromise.current
 }
 
-export function search(query: string): Array<SearchHit> {
+function runSearch(query: string, includeDrafts: boolean): Array<SearchHit> {
   const trimmed = query.trim()
   if (!trimmed) return []
   const { ms, docs } = getIndex()
-  return ms.search(trimmed).map((r): SearchHit => {
-    const stored = docs.get(String(r.id))
-    return {
-      id: String(r.id),
-      title: (r.title as string) ?? stored?.title ?? '',
-      description: (r.description as string) ?? stored?.description ?? '',
-      href: (r.href as string) ?? stored?.href ?? '',
-      category: (r.category as string) ?? stored?.category ?? '',
-      kind: (r.kind as SearchKind) ?? stored?.kind ?? 'service',
-    }
-  })
+  return ms
+    .search(trimmed)
+    .map((r) => {
+      const stored = docs.get(String(r.id))
+      const isDraft = (r.draft as boolean | undefined) ?? stored?.draft ?? false
+      return {
+        id: String(r.id),
+        title: (r.title as string) ?? stored?.title ?? '',
+        description: (r.description as string) ?? stored?.description ?? '',
+        href: (r.href as string) ?? stored?.href ?? '',
+        category: (r.category as string) ?? stored?.category ?? '',
+        kind: (r.kind as SearchKind) ?? stored?.kind ?? 'service',
+        draft: isDraft,
+      }
+    })
+    .filter((r) => includeDrafts || !r.draft)
+    .map(({ draft: _draft, ...hit }) => hit)
 }
+
+export const search = createServerFn({ method: 'GET' })
+  .inputValidator((raw: unknown) => {
+    const q = (raw as { q?: unknown }).q
+    return { q: typeof q === 'string' ? q : '' }
+  })
+  .handler(({ data }) =>
+    Sentry.startSpan({ name: 'search' }, async () =>
+      runSearch(data.q, await checkPreviewCookie()),
+    ),
+  )
