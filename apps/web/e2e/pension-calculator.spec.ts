@@ -12,7 +12,5 @@ test('pension calculator landing page renders', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: "What you'll need" }),
   ).toBeVisible()
-  await expect(
-    page.getByRole('link', { name: 'Start now' }),
-  ).toBeVisible()
+  await expect(page.getByRole('link', { name: 'Start now' })).toBeVisible()
 })

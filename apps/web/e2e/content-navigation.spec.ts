@@ -11,7 +11,10 @@ test('home → category listing → content page', async ({ page }) => {
   await page.getByRole('link', { name: 'Money and financial support' }).click()
   await expect(page).toHaveURL('/money-financial-support')
   await expect(
-    page.getByRole('heading', { name: 'Money and financial support', level: 1 }),
+    page.getByRole('heading', {
+      name: 'Money and financial support',
+      level: 1,
+    }),
   ).toBeVisible()
 
   const firstService = page
